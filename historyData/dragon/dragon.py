@@ -38,8 +38,8 @@ def __searchAllHorse():
 
 
 # 将原数据转成目标数据结构
-def __toTargetStruct(row, count, horse_info, horse_age, horse_starts, horse_score, horse_speed, current_rating,
-                     horse_deltaDays, dis_ave_speed, go_ave_speed, new_dis_array):
+def __toTargetStruct(row, race_count, horse_info, horse_age, horse_starts, horse_score, horse_speed, current_rating,
+                     horse_deltaDays, dis_ave_speed, dis_ave_horse_speed, go_ave_speed, go_ave_horse_speed, new_dis_array):
     race_date = row['race_date']
     race_id = int(str(row['race_date']) + common.toThreeDigitStr(row['race_id']))
     horse_no = row['horse_No']
@@ -96,12 +96,12 @@ def __toTargetStruct(row, count, horse_info, horse_age, horse_starts, horse_scor
     horse_star_3_allRace = horse_starts['No4_allRace']
     horse_total_allRace = horse_starts['Total_allRace']
 
-    item = (race_date, race_id, horse_no, pla_odds, win_odds, plc, count, race_no, site, cls, distance, bonus, going,
+    item = (race_date, race_id, horse_no, pla_odds, win_odds, plc, race_count, race_no, site, cls, distance, bonus, going,
             course, actual_wt, declar_horse_wt, draw, current_rating, season_stakes, total_stakes, horse_age,
             horse_star_0_curRace, horse_star_1_curRace, horse_star_2_curRace, horse_star_3_curRace, horse_total_curRace,
             horse_star_0_allRace, horse_star_1_allRace, horse_star_2_allRace, horse_star_3_allRace, horse_total_allRace,
-            horse_deltaDays, horse_score, horse_speed[0], horse_speed[1], dis_ave_speed, go_ave_speed, new_dis_array[0],
-            new_dis_array[1], new_dis_array[2], new_dis_array[3])
+            horse_deltaDays, horse_score, horse_speed[0], horse_speed[1], dis_ave_speed, dis_ave_horse_speed,
+            go_ave_speed, go_ave_horse_speed, new_dis_array[0], new_dis_array[1], new_dis_array[2], new_dis_array[3])
     return item
 
 
@@ -130,15 +130,19 @@ def main():
             current_rating = source_datas.getCurrentRating(row, data_dict['current_rating'])
             # dis_ave_speed
             dis_ave_speed = source_datas.getDistanceAveSpeed(row, data_dict['dis_avesr'])
-            # dis_ave_speed
+            # dis_ave_horse_speed
+            dis_ave_horse_speed = source_datas.getDistanceAveHorseSpeed(row, data_dict['dis_avesr_horse'])
+            # go_ave_speed
             go_ave_speed = source_datas.getGoingAveSpeed(row, data_dict['go_aversr'])
+            # go_ave_horse_speed
+            go_ave_horse_speed = source_datas.getGoingAveHorseSpeed(row, data_dict['go_aversr_horse'])
             # new_dis, rest, act_delta, dct_delta
             new_dis_array = source_datas.getNewDis(row, data_dict['horse_newDis'])
 
             # 将数据组装成目标数据结构
             cur_row = __toTargetStruct(row, race_count, horse_info, horse_age, horse_starts,
-                                       horse_score, horse_speed, current_rating, horse_deltaDays, dis_ave_speed,
-                                       go_ave_speed, new_dis_array)
+                                       horse_score, horse_speed, current_rating, horse_deltaDays, dis_ave_speed, dis_ave_horse_speed,
+                                       go_ave_speed, go_ave_horse_speed, new_dis_array)
             item = (cur_row)
             all_list.append(item)
 

@@ -5,8 +5,10 @@ from horse_age import main as cal_horse_age
 from horse_speed import main as cal_horse_speed
 from current_rating import main as cal_current_rating
 from dis_avesr import main as cal_dis_avesr
+from dis_avesr_horse import main as cal_dis_avesr_horse
 from horse_score import main as cal_horse_score
 from go_aversr import main as cal_go_aversr
+from go_aversr_horse import main as cal_go_aversr_horse
 from new_dis import main as cal_new_dis
 
 
@@ -116,11 +118,29 @@ def getDistanceAveSpeed(row, dis_avesr_dict):
     return 0
 
 
+# dis_avesr_horse_dict: new_race_id & {horse_code & ave_speed}
+def getDistanceAveHorseSpeed(row, dis_avesr_horse_dict):
+    race_id = int(str(row['race_date']) + common.toThreeDigitStr(row['race_id']))
+    horse_code = row['horse_code']
+    if (race_id in dis_avesr_horse_dict.keys()) and (horse_code in dis_avesr_horse_dict[race_id].keys()):
+        return dis_avesr_horse_dict[race_id][horse_code]
+    return 0
+
+
 # go_aversr: new_race_id & go_speed
 def getGoingAveSpeed(row, go_avesr_dict):
     race_id = int(str(row['race_date']) + common.toThreeDigitStr(row['race_id']))
     if race_id in go_avesr_dict.keys():
         return go_avesr_dict[race_id]
+    return 0
+
+
+# go_avesr_horse_dict: new_race_id & {horse_code & go_speed}
+def getGoingAveHorseSpeed(row, go_avesr_horse_dict):
+    race_id = int(str(row['race_date']) + common.toThreeDigitStr(row['race_id']))
+    horse_code = row['horse_code']
+    if (race_id in go_avesr_horse_dict.keys()) and (horse_code in go_avesr_horse_dict[race_id].keys()):
+        return go_avesr_horse_dict[race_id][horse_code]
     return 0
 
 
@@ -158,7 +178,9 @@ def __getRaceCount(history_rows):
 # horse_speed: new_race_id & {horse_code & [pre_speed, last_4_speed]}
 # current_rating: race_date & {horse_code & current_rating}
 # dis_avesr: new_race_id & ave_speed
+# dis_avesr_horse: new_race_id & {horse_code & ave_speed}
 # go_aversr: new_race_id & go_speed
+# go_aversr_horse: new_race_id & {horse_code & go_speed}
 # horse_newDis: new_race_id & {horse_code & {keys=>new_dis, rest, act_delta, dct_delta}}
 def prepareDatas(history_rows):
     data_dict = {}
@@ -170,6 +192,8 @@ def prepareDatas(history_rows):
     data_dict['horse_speed'] = cal_horse_speed.getRaceHorseSpeedDict(history_rows)
     data_dict['current_rating'] = cal_current_rating.getCurrentRatingBeforeRace()
     data_dict['dis_avesr'] = cal_dis_avesr.getDistanceAveSpeed(history_rows)
+    data_dict['dis_avesr_horse'] = cal_dis_avesr_horse.getDistanceAveSpeed(history_rows)
     data_dict['go_aversr'] = cal_go_aversr.getGoingAveSpeed(history_rows)
+    data_dict['go_aversr_horse'] = cal_go_aversr_horse.getGoingAveSpeed(history_rows)
     data_dict['horse_newDis'] = cal_new_dis.getHorseNewDisDict(history_rows)
     return data_dict

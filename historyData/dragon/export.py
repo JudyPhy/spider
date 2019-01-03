@@ -19,15 +19,15 @@ def __insert(all_list):
             current_rating, season_stakes, total_stakes, horse_age, 
             horse_star_0_curRace, horse_star_1_curRace, horse_star_2_curRace, horse_star_3_curRace, horse_total_curRace,
             horse_star_0_allRace, horse_star_1_allRace, horse_star_2_allRace, horse_star_3_allRace, horse_total_allRace,
-            raceDays, score, pre_race_speed, race_speed, dis_avesr, go_aversr, new_dis, rest, act_delta,
-            dct_delta)
+            raceDays, score, pre_race_speed, race_speed, dis_avesr, dis_avesr_horse, go_aversr, go_aversr_horse,
+            new_dis, rest, act_delta, dct_delta)
             values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
             %s, %s, %s, %s, %s, %s, %s,
             %s, %s, %s, %s,
             %s, %s, %s, %s, %s,
             %s, %s, %s, %s, %s,
-            %s, %s, %s, %s, %s, %s, %s, %s, %s,
-            %s)'''.format(RESULT_TABLE)
+            %s, %s, %s, %s, %s, %s, %s, %s, 
+            %s, %s, %s, %s)'''.format(RESULT_TABLE)
     singleton_Results_DB.cursor.executemany(sql, all_list)
     singleton_Results_DB.connect.commit()
 
@@ -71,7 +71,9 @@ def __createNewTable():
     pre_race_speed FLOAT DEFAULT 0,
     race_speed FLOAT DEFAULT 0,
     dis_avesr FLOAT DEFAULT 0,
+    dis_avesr_horse FLOAT DEFAULT 0,
     go_aversr FLOAT DEFAULT 0,
+    go_aversr_horse FLOAT DEFAULT 0,
     new_dis INT DEFAULT 0,
     rest INT DEFAULT 0,
     act_delta INT DEFAULT 0,

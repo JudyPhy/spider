@@ -7,8 +7,10 @@ from horse_age import main as cal_horse_age
 from horse_speed import main as cal_horse_speed
 from current_rating import main as cal_current_rating
 from dis_avesr import main as cal_dis_avesr
+from dis_avesr_horse import main as cal_dis_avesr_horse
 from horse_score import main as cal_horse_score
 from go_aversr import main as cal_go_aversr
+from go_aversr_horse import main as cal_go_aversr_horse
 from new_dis import main as cal_new_dis
 
 TODAY_HORSE_FROM_TABLE = singleton_cfg.getTodayHorseInfoTable()
@@ -129,7 +131,9 @@ def __calculateTodayCount(today_rows):
 # horse_speed: horse_code & [pre_speed, last_4_speed]
 # current_rating: horse_code & current_rating
 # dis_avesr: distance & ave_speed
+# dis_avesr_horse: horse_code & dis_ave_speed
 # go_aversr: going & ave_speed
+# go_aversr_horse: horse_code & go_ave_speed
 # horse_newDis: horse_code & {keys=>new_dis, rest, act_delta, dct_delta}
 def prepareDatas(today_rows):
     data_dict = {}
@@ -142,6 +146,8 @@ def prepareDatas(today_rows):
     data_dict['horse_speed'] = cal_horse_speed.getTodayRaceHorseSpeedDict(today_rows)
     data_dict['current_rating'] = cal_current_rating.getTodayCurrentRatingBeforeRace()
     data_dict['dis_avesr'] = cal_dis_avesr.getTodayDistanceAveSpeed(today_rows)
+    data_dict['dis_avesr_horse'] = cal_dis_avesr_horse.getTodayDistanceAveSpeed(today_rows)
     data_dict['go_aversr'] = cal_go_aversr.getTodayGoingAveSpeed(today_rows)
+    data_dict['go_aversr_horse'] = cal_go_aversr_horse.getTodayGoingAveSpeed(today_rows)
     data_dict['horse_newDis'] = cal_new_dis.getTodayHorseNewDisDict(today_rows)
     return data_dict
