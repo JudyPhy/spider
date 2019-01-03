@@ -51,7 +51,7 @@ class HorseInfoParse(object):
         finally:
             pass
 
-    def __getKeyValueList(self, element, needOption=False, isArrivalDate=False):
+    def __getKeyValueList(self, element, needOption=False, isArrivalDate=False, isOwner=False):
         result = []
         if needOption:
             options = element.find_elements_by_xpath('.//option')
@@ -62,7 +62,7 @@ class HorseInfoParse(object):
                     list.append(str_name)
                 result.append(list)
         else:
-            if '/' in element.text and not isArrivalDate:
+            if '/' in element.text and not isArrivalDate and not isOwner:
                 array = element.text.split('/')
                 for key in array:
                     result.append(key.strip())
@@ -75,7 +75,8 @@ class HorseInfoParse(object):
             keys = self.__getKeyValueList(tds[0])
             needOption = 'Same Sire' in keys
             isArrivalDate = len(keys) > 0 and 'Arrival Date' in keys[0]
-            values = self.__getKeyValueList(tds[2], needOption, isArrivalDate)
+            isOwner = len(keys) == 1 and 'Owner' in keys[0]
+            values = self.__getKeyValueList(tds[2], needOption, isArrivalDate, isOwner)
             if len(keys) == len(values):
                 for index, key in enumerate(keys):
                     temp_key = key.replace(' ', '')
