@@ -3,7 +3,10 @@ from ..common import common
 from ..config.myconfig import singleton as singleton_cfg
 from ..db.db import singleton_ScrubDb
 
+BASE_URL = 'https://racing.hkjc.com/racing/Info/Meeting/Results/English/Local'
+
 RACE_TYPE = ['ST', 'HV']
+
 
 class UrlManager(object):
 
@@ -11,17 +14,15 @@ class UrlManager(object):
         urlList = []
         time_str = str(year) + common.toDoubleDigitStr(month) + common.toDoubleDigitStr(day)
         for type in RACE_TYPE:
-            u = singleton_cfg.getBaseUrl() + '/' + time_str + '/' + type + '/' + str(race_num)
+            u = BASE_URL + '/' + time_str + '/' + type + '/' + str(race_num)
             urlList.append(u)
         return urlList
-
 
     def __parseTime(self, str_time):
         array = str_time.split('-')
         if len(array) == 3:
             return int(array[0]), int(array[1]), int(array[2])
         return None, None, None
-
 
     def __getFromTime(self, str_time):
         year, month, day = self.__parseTime(str_time)
@@ -38,7 +39,6 @@ class UrlManager(object):
                     return year, 1, 1
         else:
             return None, None, None
-
 
     def __getToTime(self, str_time):
         year, month, day = self.__parseTime(str_time)
@@ -83,7 +83,7 @@ class UrlManager(object):
                     if len(array) == 3:
                         str_url_date = array[2] + array[1] + array[0]
                         for type in RACE_TYPE:
-                            u = singleton_cfg.getBaseUrl() + '/' + str_url_date + '/' + type + '/' + str(row['race_No'])
+                            u = BASE_URL + '/' + str_url_date + '/' + type + '/' + str(row['race_No'])
                             if u not in urlList:
                                 urlList.append(u)
                     else:
@@ -93,14 +93,15 @@ class UrlManager(object):
         return urlList
 
     def getUrlList(self):
+        spiderInfo = singleton_cfg.getSpider()
         # time
-        str_from_time, str_to_time = singleton_cfg.getTime()
-        start_year, start_month, start_day = self.__getFromTime(str_from_time)
-        end_year, end_month, end_day = self.__getToTime(str_to_time)
+        # str_from_time, str_to_time = singleton_cfg.getTime()
+        start_year, start_month, start_day = self.__getFromTime(spiderInfo['from_time'])
+        end_year, end_month, end_day = self.__getToTime(spiderInfo['to_time'])
         # race No
-        str_from_raceNo, str_to_raceNo = singleton_cfg.getRaceNo()
-        start_raceNo = self.__getFromRanceNo(str_from_raceNo)
-        end_raceNo = self.__getToRanceNo(str_to_raceNo)
+        # str_from_raceNo, str_to_raceNo = singleton_cfg.getRaceNo()
+        start_raceNo = self.__getFromRanceNo(spiderInfo['from_race_No'])
+        end_raceNo = self.__getToRanceNo(spiderInfo['to_race_No'])
         # url
         urlList = []
         for y in range(start_year, end_year + 1):

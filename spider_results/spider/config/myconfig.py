@@ -8,20 +8,9 @@ class MyConfig(object):
         self.cf = configparser.ConfigParser()
 
         self.__sipderInfo = {}
-        self.__readSpiderCfg()
-
         self.__db_self = {}
         self.__target = {}
         self.__readDBCfg()
-        pass
-
-    def __readSpiderCfg(self):
-        self.cf.read("config/spiderCfg.ini")
-        self.__sipderInfo['base_url']= self.cf.get('raceResults', "base_url")
-        self.__sipderInfo['from_time'] = self.cf.get('raceResults', "from_time")
-        self.__sipderInfo['to_time'] = self.cf.get('raceResults', "to_time")
-        self.__sipderInfo['from_race_No'] = self.cf.get('raceResults', "from_race_No")
-        self.__sipderInfo['to_race_No'] = self.cf.get('raceResults', "to_race_No")
         pass
 
     def __readDBCfg(self):
@@ -33,19 +22,24 @@ class MyConfig(object):
 
         self.__target['results_table'] = self.cf.get('target', 'results_table')
         self.__target['pool_table'] = self.cf.get('target', 'pool_table')
+
+        self.__sipderInfo['from_time'] = self.cf.get('spider', "from_time")
+        self.__sipderInfo['to_time'] = self.cf.get('spider', "to_time")
+        self.__sipderInfo['from_race_No'] = self.cf.get('spider', "from_race_No")
+        self.__sipderInfo['to_race_No'] = self.cf.get('spider', "to_race_No")
         pass
 
     def getSelfDB(self):
         return self.__db_self
+
+    def getSpider(self):
+        return self.__sipderInfo
 
     def getTime(self):
         return self.__sipderInfo['from_time'], self.__sipderInfo['to_time']
 
     def getRaceNo(self):
         return self.__sipderInfo['from_race_No'], self.__sipderInfo['to_race_No']
-
-    def getBaseUrl(self):
-        return self.__sipderInfo['base_url']
 
     # results table
     def getTargetRaceResultsTable(self, year):

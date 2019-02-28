@@ -2,7 +2,7 @@ import scrapy
 from scrapy.http import Request
 from ..spiders.race_card_parse import RaceCardParse
 from ..items import RaceCardItem
-from ..url.urlManager import singleton as singleton_url
+from ..url.urlManager import singleton_url
 
 
 class raceCardURLSpider(scrapy.Spider):
@@ -11,7 +11,9 @@ class raceCardURLSpider(scrapy.Spider):
     allowed_domains = ['http://racing.hkjc.com']
 
     def start_requests(self):
-        urlList = singleton_url.getUrlList()
+        urlList = singleton_url.getHistoryUrlList()
+        # urlList = singleton_url.getFutureUrlList()
+        print('need spider url count:', len(urlList))
         for url in urlList:
             print('request=>', url)
             yield Request(url, callback=self.parse)

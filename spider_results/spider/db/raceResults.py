@@ -14,6 +14,9 @@ def process_RaceResultsRankItem(item):
         repetition = singleton_ScrubDb.cursor.fetchone()
         if repetition:
             pass
+            # singleton_ScrubDb.cursor.execute(
+            #     '''update {} set plc=%s where race_date=%s and race_id=%s and horse_No=%s and horse_code=%s'''.format(tableName),
+            #     (item['plc'], item['race_date'], item['race_id'], item['horse_No'], item['horse_code']))
         else:
             singleton_ScrubDb.cursor.execute(
                 """insert into {}(race_date, race_id, race_No, site, cls, distance, bonus, course, going,

@@ -1,12 +1,17 @@
 from ..db.db import singleton_ScrubDb
 from ..config.myconfig import singleton_cfg
 from ..common import common
+from ..url.urlManager import singleton_url
 
 TAG = 'raceCard'
 
 
 def process_RaceCardItem(item):
-    tableName = singleton_cfg.getTargetRaceCardTable()
+    if singleton_url.isHistory:
+        str_date = str(item['race_date'])
+        tableName= 't_race_card_' + str_date[:len(str_date) - 4]
+    else:
+        tableName = 't_race_card_future'
     __createRaceCardTable(tableName)
     try:
         singleton_ScrubDb.cursor.execute(
@@ -14,6 +19,9 @@ def process_RaceCardItem(item):
             (item['race_date'], item['race_No'], item['horse_No']))
         repetition = singleton_ScrubDb.cursor.fetchone()
         if repetition:
+            # singleton_ScrubDb.cursor.execute(
+            #     """update {} set cls=%s,bonus=%s where race_date=%s and race_No=%s and horse_No=%s and horse_code=%s""".format(tableName),
+            #     (item['cls'], item['bonus'], item['race_date'], item['race_No'], item['horse_No'], item['horse_code']))
             pass
         else:
             singleton_ScrubDb.cursor.execute(

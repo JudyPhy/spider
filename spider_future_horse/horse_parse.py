@@ -51,7 +51,7 @@ class HorseInfoParse(object):
         finally:
             pass
 
-    def __getKeyValueList(self, element, needOption=False, isArrivalDate=False, isOwner=False):
+    def __getKeyValueList(self, element, needOption=False, isArrivalDate=False):
         result = []
         if needOption:
             options = element.find_elements_by_xpath('.//option')
@@ -62,7 +62,7 @@ class HorseInfoParse(object):
                     list.append(str_name)
                 result.append(list)
         else:
-            if '/' in element.text and not isArrivalDate and not isOwner:
+            if '/' in element.text and not isArrivalDate:
                 array = element.text.split('/')
                 for key in array:
                     result.append(key.strip())
@@ -75,15 +75,20 @@ class HorseInfoParse(object):
             keys = self.__getKeyValueList(tds[0])
             needOption = 'Same Sire' in keys
             isArrivalDate = len(keys) > 0 and 'Arrival Date' in keys[0]
-            isOwner = len(keys) == 1 and 'Owner' in keys[0]
-            values = self.__getKeyValueList(tds[2], needOption, isArrivalDate, isOwner)
+            values = self.__getKeyValueList(tds[2], needOption, isArrivalDate)
             if len(keys) == len(values):
                 for index, key in enumerate(keys):
                     temp_key = key.replace(' ', '')
                     if len(temp_key) > 0:
                         self.__temp_dict[key] = values[index]
             else:
-                print('key != value', keys, ' & ', values)
+                if (len(keys) == 2) and (len(values) == 3) and (keys[0] == 'Colour') and (keys[1] == 'Sex'):
+                    self.__temp_dict[keys[0]] = values[0] + '/' + values[1]
+                    self.__temp_dict[keys[1]] = values[2]
+                elif (len(keys) == 1) and (keys[0] == 'Owner'):
+                    self.__temp_dict[keys[0]] = ''.join(values)
+                else:
+                    print('key != value', keys, ' & ', values)
         else:
             print('block td length error')
         pass

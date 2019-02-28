@@ -9,6 +9,7 @@ from spider.db import raceResults
 from spider.items import RaceResultsRankItem
 from spider.items import RaceResultsPayoutItem
 from spider.db.db import singleton_ScrubDb
+import os
 
 
 class SpiderPipeline(object):
@@ -23,3 +24,5 @@ class SpiderPipeline(object):
 
     def close_spider(self, spider):
         singleton_ScrubDb.connect.close()
+        os.remove('../flag')
+

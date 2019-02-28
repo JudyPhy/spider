@@ -6,8 +6,7 @@ class RaceCardParse(object):
 
     def __init__(self, response):
         # race info
-        array_date = singleton_cfg.getRequestDay().split('-')
-        self.race_date = str(array_date[0]) + common.toDoubleDigitStr(array_date[1]) + common.toDoubleDigitStr(array_date[2])
+        self.race_date = 0
         self.race_time = ''
         self.race_id = 0
         self.race_No = 0
@@ -41,6 +40,40 @@ class RaceCardParse(object):
                     # print('row:', row)
         pass
 
+    def __getMonth(self, text_month):
+        if text_month == 'January':
+            return 1
+        elif text_month == 'February':
+            return 2
+        elif text_month == 'March':
+            return 3
+        elif text_month == 'April':
+            return 4
+        elif text_month == 'May':
+            return 5
+        elif text_month == 'June':
+            return 6
+        elif text_month == 'July':
+            return 7
+        elif text_month == 'September':
+            return 9
+        elif text_month == 'October':
+            return 10
+        elif text_month == 'November':
+            return 11
+        elif text_month == 'December':
+            return 12
+        return 0
+
+    def __getRaceDate(self, array):
+        year = int(array[2])
+        array_md = array[1].strip().split(' ')
+        if len(array_md) == 2:
+            day = int(array_md[1])
+            month = self.__getMonth(array_md[0])
+            return int(str(year) + common.toDoubleDigitStr(month) + common.toDoubleDigitStr(day))
+        return 0
+
     def __parseRaceInfo(self, response):
         divs_info = response.xpath('.//div[@class="rowDiv10"]')
         if len(divs_info) > 0:
@@ -59,6 +92,7 @@ class RaceCardParse(object):
                         # line2
                         array_line_2 = array_info[3].strip().split(',')
                         if len(array_line_2) == 5:
+                            self.race_date = self.__getRaceDate(array_line_2)
                             self.site = array_line_2[3]
                             self.race_time = array_line_2[4].strip()
 
@@ -84,6 +118,14 @@ class RaceCardParse(object):
                                 array_cls = array_line_4[1].split(',')
                                 if len(array_cls) > 0:
                                     self.cls = array_cls[len(array_cls) - 1]
+                            elif len(array_line_4) == 1:
+                                array_bonus = array_line_4[0].split('Rating')
+                                if len(array_bonus) > 0:
+                                    self.bonus = int(array_bonus[0].replace(',', '').replace('$', ''))
+                                    if len(array_bonus) > 1:
+                                        array_cls = array_bonus[1].split(',')
+                                        if len(array_cls) > 0:
+                                            self.cls = array_cls[len(array_cls) - 1]
         if self.race_No != 0:
             print('race info=> race_date:', self.race_date, ' race_time:', self.race_time, ' race_No:', self.race_No, ' site:', self.site,
                   ' course:', self.course, ' distance:', self.distance, ' bonus:', self.bonus)

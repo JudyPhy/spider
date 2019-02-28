@@ -20,4 +20,3 @@ class SpiderPipeline(object):
 
     def close_spider(self, spider):
         singleton_ScrubDb.connect.close()
-        os.remove('flag')
