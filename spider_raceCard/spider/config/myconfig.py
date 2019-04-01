@@ -25,8 +25,6 @@ class MyConfig(object):
         self.__source['to_time'] = self.cf.get('source', 'to_time')
         self.__source['from_race_No'] = self.cf.get('source', 'from_race_No')
         self.__source['to_race_No'] = self.cf.get('source', 'to_race_No')
-
-        self.__target['export_card_table'] = self.cf.get('target', 'export_card_table')
         pass
 
     def getScrubDB(self):
@@ -34,10 +32,6 @@ class MyConfig(object):
 
     def getSource(self):
         return self.__source
-
-    # race-card table
-    def getTargetRaceCardTable(self):
-        return self.__target['export_card_table']
 
 
 singleton_cfg = MyConfig()

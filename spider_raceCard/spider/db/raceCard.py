@@ -7,11 +7,12 @@ TAG = 'raceCard'
 
 
 def process_RaceCardItem(item):
+    str_date = str(item['race_date'])
+    year = str_date[:len(str_date) - 4]
     if singleton_url.isHistory:
-        str_date = str(item['race_date'])
-        tableName= 't_race_card_' + str_date[:len(str_date) - 4]
+        tableName= 't_race_card_' + year
     else:
-        tableName = 't_race_card_future'
+        tableName = 't_race_card_future_' + year
     __createRaceCardTable(tableName)
     try:
         singleton_ScrubDb.cursor.execute(

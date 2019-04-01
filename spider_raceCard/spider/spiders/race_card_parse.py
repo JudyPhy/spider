@@ -107,7 +107,7 @@ class RaceCardParse(object):
                             else:
                                 self.course = array_line_3[0].replace('Course', '').replace('"', '').strip()
                                 self.distance = int(array_line_3[1].replace('M', ''))
-                                self.going = array_line_3[2].strip().upper()
+                                self.going = array_line_3[2].replace(' ', '').upper()
 
                             # line4
                             array_line_4 = array_line34[1].split('-')

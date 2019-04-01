@@ -59,3 +59,4 @@ class raceCardURLSpider(scrapy.Spider):
             item_rank['dam'] = one[23]
             item_rank['import_cat'] = one[24]
             yield item_rank
+
