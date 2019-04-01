@@ -8,7 +8,6 @@ from db.database import singleton_Scrub_DB
 import datetime
 
 RESULTS_TABLE = 'f_race_results_{0}'
-TODAY_RACE_CARD_TABLE = 't_race_card_future'
 
 
 def __getHistoryHorseRaceData(horse_code_list, today_date):
@@ -43,10 +42,12 @@ def __getHistoryHorseRaceData(horse_code_list, today_date):
 
 def __getTodayHorseRaceData():
     horse_race_dict = {}  # horse_code & {key=>distance, actual_wt, declar_horse_wt}
-    if singleton_Scrub_DB.table_exists(TODAY_RACE_CARD_TABLE):
-        today_date = singleton_cfg.getRaceDate()
+    today_date = singleton_cfg.getRaceDate()
+    year = today_date[: len(today_date) - 4]
+    tableName = singleton_cfg.getFutureRaceCardTable().replace('{0}', year)
+    if singleton_Scrub_DB.table_exists(tableName):
         singleton_Scrub_DB.cursor.execute(
-            'select race_date,race_id,horse_code,distance,wt,horse_wt_dec from {} where race_date=%s'.format(TODAY_RACE_CARD_TABLE), today_date)
+            'select race_date,race_id,horse_code,distance,wt,horse_wt_dec from {} where race_date=%s'.format(tableName), today_date)
         rows_orig = singleton_Scrub_DB.cursor.fetchall()
         singleton_Scrub_DB.connect.commit()
         for row in rows_orig:
@@ -60,7 +61,7 @@ def __getTodayHorseRaceData():
                     row['horse_wt_dec'] = 0
                 horse_race_dict[horse_code]['declar_horse_wt'] = int(row['horse_wt_dec'])
     else:
-        common.log('new_dis: table[' + TODAY_RACE_CARD_TABLE + '] not exist')
+        common.log('new_dis: table[' + tableName + '] not exist')
     return horse_race_dict
 
 

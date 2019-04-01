@@ -16,7 +16,7 @@ def main():
                 row['horse_No'] = horse_No_valid + 1
                 horse_No_valid += 1
             cur_row_list = (secTime.raceInfo['race_date'], secTime.raceInfo['race_No'], secTime.raceInfo['site'],
-                            secTime.raceInfo['cls'], secTime.raceInfo['distance'], secTime.raceInfo['going'], secTime.raceInfo['course'],
+                            secTime.raceInfo['cls'], secTime.raceInfo['distance'], secTime.raceInfo['course'], secTime.raceInfo['going'],
                             row['finishing_order'], row['horse_No'], row['horse_name'], row['horse_code'],
                             row['sec1_time'], row['sec2_time'], row['sec3_time'], row['sec4_time'], row['sec5_time'], row['sec6_time'],
                             row['sec1_pos'], row['sec2_pos'], row['sec3_pos'], row['sec4_pos'], row['sec5_pos'], row['sec6_pos'],

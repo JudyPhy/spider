@@ -5,20 +5,24 @@ from config.myconfig import singleton_cfg
 from dragon import source_datas
 from dragon import export
 
-TODAY_RACE_CARD_TABLE = 't_race_card_future'
-
 
 # 获取当天比赛数据
 def __searchTodayRaceData():
-    list = []
+    today_rows = []
     today_date = singleton_cfg.getRaceDate()
-    if singleton_Scrub_DB.table_exists(TODAY_RACE_CARD_TABLE):
-        singleton_Scrub_DB.cursor.execute('select * from {} where race_date=%s'.format(TODAY_RACE_CARD_TABLE), today_date)
-        list = singleton_Scrub_DB.cursor.fetchall()
+    tableName = singleton_cfg.getFutureRaceCardTable()
+    if singleton_Scrub_DB.table_exists(tableName):
+        singleton_Scrub_DB.cursor.execute('select * from {} where race_date=%s'.format(tableName), today_date)
+        rows = singleton_Scrub_DB.cursor.fetchall()
         singleton_Scrub_DB.connect.commit()
+        for row in rows:
+            if row['draw'].replace('\xa0', '') != '':
+                today_rows.append(row)
+            else:
+                print(row)
     else:
-        common.log('dragon: Table[' + TODAY_RACE_CARD_TABLE + '] not exist.')
-    return list
+        common.log('dragon: Table[' + tableName + '] not exist.')
+    return today_rows
 
 
 # 将原数据转成目标数据结构
@@ -75,8 +79,13 @@ def __toTargetStruct(row, count, horse_info, horse_age, horse_starts, horse_scor
     horse_star_3_allRace = horse_starts['No4_allRace']
     horse_total_allRace = horse_starts['Total_allRace']
 
+    if '-' in row['rtg']:
+        rtg = 0
+    else:
+        rtg = int(row['rtg'])
+
     item = (race_date, race_id, horse_code, horse_no, pla_odds, win_odds, plc, count, race_no, site, cls, distance, bonus, going,
-            course, actual_wt, declar_horse_wt, draw, current_rating, season_stakes, total_stakes, horse_age,
+            course, actual_wt, declar_horse_wt, draw, rtg, season_stakes, total_stakes, horse_age,
             horse_star_0_curRace, horse_star_1_curRace, horse_star_2_curRace, horse_star_3_curRace, horse_total_curRace,
             horse_star_0_allRace, horse_star_1_allRace, horse_star_2_allRace, horse_star_3_allRace, horse_total_allRace,
             horse_deltaDays, horse_score, horse_speed[0], horse_speed[1], dis_ave_speed, dis_ave_horse_speed,
@@ -105,7 +114,8 @@ def main():
             # horse score
             horse_score = source_datas.getHorseDate(horse_code, data_dict['horse_score'], 1500)
             # horse age
-            horse_age = source_datas.getHorseDate(horse_code, data_dict['horse_age'], 3)
+            # horse_age = source_datas.getHorseDate(horse_code, data_dict['horse_age'], 3)
+            horse_age = row['age']
             # horse speed
             horse_speed = source_datas.getHorseSpeed(row, data_dict['horse_speed'])
             # current rating before
@@ -117,7 +127,7 @@ def main():
             # dis_ave_horse_speed
             dis_ave_horse_speed = source_datas.getHorseDate(horse_code, data_dict['dis_avesr_horse'], 0)
             # go_ave_speed
-            going = row['going'].strip().upper()
+            going = row['going'].replace(' ', '').upper()
             if going == '':
                 going = 'GOOD'
             go_ave_speed = source_datas.getHorseDate(going, data_dict['go_aversr'], 0)

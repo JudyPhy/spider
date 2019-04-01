@@ -4,6 +4,10 @@ from common import common
 
 class MyConfig(object):
 
+    FUTURE_HORSE_TABLE = 'a_future_horse_info_{0}'
+
+    FUTURE_RACE_CARD_TABLE = 't_race_card_future_{0}'
+
     def __init__(self):
         self.cf = configparser.ConfigParser()
 
@@ -36,7 +40,6 @@ class MyConfig(object):
     def __readMiddleDataCfg(self):
         self.cf.read("config/middleData.ini")
         self.__future['race_date'] = self.cf.get('future', 'race_date')
-        self.__future['horse_table'] = self.cf.get('future', 'horse_table')
 
         self.__dragon['export_table'] = self.cf.get('dragon', 'export_table')
         pass
@@ -47,11 +50,18 @@ class MyConfig(object):
         return array[0] + common.toDoubleDigitStr(array[1]) + common.toDoubleDigitStr(array[2])
 
     def getTodayHorseInfoTable(self):
-        return self.__future['horse_table']
+        race_date = self.getRaceDate()
+        year = race_date[: len(race_date) - 4]
+        return self.FUTURE_HORSE_TABLE.replace('{0}', year)
+
+    def getFutureRaceCardTable(self):
+        race_date = self.getRaceDate()
+        year = race_date[: len(race_date) - 4]
+        return self.FUTURE_RACE_CARD_TABLE.replace('{0}', year)
 
     # dragon
     def getDragonExportTable(self):
-        return self.__dragon['export_table']
+        return self.__dragon['export_table'].replace('{0}', self.getRaceDate())
 
     # scrub db
     def getSourceDB(self):

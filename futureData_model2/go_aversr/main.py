@@ -9,7 +9,12 @@ RESULTS_TABLE = 'f_race_results_{0}'
 
 def __getRaceSeconds(time_text):
     seconds = 0
-    array_time = time_text.split('.')
+    array_time = []
+    array1 = time_text.split('.')
+    for item1 in array1:
+        array2 = item1.split(':')
+        for item2 in array2:
+            array_time.append(item2)
     if len(array_time) == 3:
         seconds = int(array_time[0]) * 60 + int(array_time[1]) + int(array_time[2]) / 100
     elif len(array_time) == 2:
@@ -53,6 +58,7 @@ def getTodayGoingAveSpeed(today_rows):
             going = 'GOOD'
         if going not in going_list:
             going_list.append(going)
+    print('\ntoday going type:', going_list)
     today_date = int(singleton_cfg.getRaceDate())
     going_rows = __getHistoryGoingRaceData(going_list, today_date)
 
@@ -69,6 +75,7 @@ def getTodayGoingAveSpeed(today_rows):
                 all_time += __getRaceSeconds(row['finish_time'])
         if all_time != 0:
             going_ave_dict[going] = all_dis / all_time
+    print(going_ave_dict)
     return going_ave_dict
 
 

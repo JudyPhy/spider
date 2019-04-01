@@ -9,6 +9,7 @@ class HorsePedigreeSpider(object):
 
     def start_requests(self):
         url_list = singleton_url.getUrlList()
+        # url_list = singleton_url.getFutureUrlList()
         common.log('need spider url count=' + str(len(url_list)))
 
         for url in url_list:

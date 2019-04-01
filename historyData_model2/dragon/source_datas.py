@@ -109,9 +109,18 @@ def getHorseSpeed(row, speed_dict):
 # has_before_data_dict: race_date & {horse_code & current_rating}
 def getCurrentRating(row, has_before_data_dict):
     race_date = row['race_date']
-    horse_code = row['horse_code']
+    horse_code = row['horse_code'].strip()
     if (race_date in has_before_data_dict.keys()) and (horse_code in has_before_data_dict[race_date].keys()):
         return has_before_data_dict[race_date][horse_code]
+    return -1
+
+
+# rtg_dict: race_date(int) & {horse_code & rtg}
+def getRtg(row, rtg_dict):
+    race_date = row['race_date']
+    horse_code = row['horse_code']
+    if (race_date in rtg_dict.keys()) and (horse_code in rtg_dict[race_date].keys()):
+        return rtg_dict[race_date][horse_code]
     return -1
 
 
@@ -209,6 +218,7 @@ def __getRaceCount(history_rows):
 # horse_age: new_race_id & {horse_code & age}
 # horse_speed: new_race_id & {horse_code & [pre_speed, last_4_speed]}
 # current_rating: race_date & {horse_code & current_rating}
+# rtg: race_date(int) & {horse_code & rtg}
 # dis_avesr: new_race_id & ave_speed
 # dis_avesr_horse: new_race_id & {horse_code & ave_speed}
 # go_aversr: new_race_id & go_speed
@@ -228,6 +238,7 @@ def prepareDatas(history_rows):
     data_dict['horse_age'] = cal_horse_age.getHorseAgeDict(history_rows)
     data_dict['horse_speed'] = cal_horse_speed.getRaceHorseSpeedDict(history_rows)
     data_dict['current_rating'] = cal_current_rating.getCurrentRatingBeforeRace()
+    data_dict['rtg'] = cal_current_rating.getRtg()
     data_dict['dis_avesr'] = cal_dis_avesr.getDistanceAveSpeed(history_rows)
     data_dict['dis_avesr_horse'] = cal_dis_avesr_horse.getDistanceAveSpeed(history_rows)
     data_dict['go_aversr'] = cal_go_aversr.getGoingAveSpeed(history_rows)

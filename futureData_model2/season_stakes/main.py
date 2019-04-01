@@ -8,8 +8,9 @@ TODAY_HORSE_TABLE = singleton_cfg.getTodayHorseInfoTable()
 
 def getTodaySeasonStakesBeforeRace():
     results_dict = {}  # horse_code & season_stakes
+    race_date = singleton_cfg.getRaceDate()
     if singleton_Scrub_DB.table_exists(TODAY_HORSE_TABLE):
-        singleton_Scrub_DB.cursor.execute('select code,season_stakes from {}'.format(TODAY_HORSE_TABLE))
+        singleton_Scrub_DB.cursor.execute('select code,season_stakes from {} where race_date=%s'.format(TODAY_HORSE_TABLE), race_date)
         rows = singleton_Scrub_DB.cursor.fetchall()
         singleton_Scrub_DB.connect.commit()
         for row in rows:

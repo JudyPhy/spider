@@ -9,7 +9,12 @@ RESULTS_TABLE = 'f_race_results_{0}'
 
 def __getRaceSeconds(time_text):
     seconds = 0
-    array_time = time_text.split('.')
+    array_time = []
+    array1 = time_text.split('.')
+    for item1 in array1:
+        array2 = item1.split(':')
+        for item2 in array2:
+            array_time.append(item2)
     if len(array_time) == 3:
         seconds = int(array_time[0]) * 60 + int(array_time[1]) + int(array_time[2]) / 100
     elif len(array_time) == 2:
@@ -37,7 +42,7 @@ def __getHistoryGoingRaceData(code_going_dict, today_date):
                     if (row['plc'] not in common.words) and (horse_code in code_going_dict.keys()):
                         if horse_code not in horse_dis_dict.keys():
                             horse_dis_dict[horse_code] = [0, 0]
-                        going = row['going'].strip().upper()
+                        going = row['going'].replace(' ', '').upper()
                         if going == '':
                             going = 'GOOD'
                         distance = int(row['distance'])

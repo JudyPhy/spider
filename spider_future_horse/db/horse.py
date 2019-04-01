@@ -1,27 +1,30 @@
 from db.db import singleton_ScrubDb
-from config.myconfig import singleton as singleton_cfg
+from config.myconfig import singleton_cfg
 from common import common
 
 
 def process_HorseInfoItem(item):
-    tableName = singleton_cfg.getTargetTable()
+    race_date = singleton_cfg.getRaceDate()
+    year = race_date[: len(race_date) - 4]
+    tableName = singleton_cfg.getTargetTable().replace('{0}', year)
     __createHorseInfoTable(tableName)
     try:
         singleton_ScrubDb.cursor.execute(
-        """select * from {} where code=%s and name=%s""".format(tableName), (item['code'].strip(), item['name']))
+        """select * from {} where race_date=%s and code=%s and name=%s""".format(tableName),
+            (race_date, item['code'].strip(), item['name']))
         repetition = singleton_ScrubDb.cursor.fetchone()
-        #print('repetition:',repetition,' horse name:',item['name'])
         if repetition:
             pass
         else:
             singleton_ScrubDb.cursor.execute(
-            """insert into {}(name, code, retired, country_of_origin, age, trainer, color, sex, owner, import_type,
+            """insert into {}(race_date, name, code, retired, country_of_origin, age, trainer, color, sex, owner, import_type,
             current_rating, season_stakes, start_of_season_rating, total_stakes, No_1, No_2, No_3, No_of_starts,
             No_of_starts_in_past_10_race_meetings, sire, dam, dams_sire, same_sire, current_location, arrival_date, last_rating)
-            value (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+            value (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
             %s, %s, %s, %s, %s, %s, %s, %s, 
             %s, %s, %s, %s, %s, %s, %s, %s)""".format(tableName),
-            (item['name'],
+            (race_date,
+             item['name'],
              item['code'].strip(),
              item['retired'],
              item['country_of_origin'],
@@ -56,6 +59,7 @@ def process_HorseInfoItem(item):
 def __createHorseInfoTable(tableName):
     sql = '''create table if not exists {}(
     id INT PRIMARY KEY AUTO_INCREMENT,
+    race_date VARCHAR(45) DEFAULT '',
     name VARCHAR(45) DEFAULT '',
     code VARCHAR(45) DEFAULT '',
     retired INT DEFAULT 0,
@@ -84,3 +88,4 @@ def __createHorseInfoTable(tableName):
     last_rating VARCHAR(45) DEFAULT '',
     updateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP)'''.format(tableName)
     singleton_ScrubDb.cursor.execute(sql)
+

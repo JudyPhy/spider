@@ -1,4 +1,4 @@
-from config.myconfig import singleton as singleton_cfg
+from config.myconfig import singleton_cfg
 import pymysql
 import re
 

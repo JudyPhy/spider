@@ -87,3 +87,4 @@ def __createNewTable():
     ht_raceCount INT DEFAULT 0,
     ht_raceCount_before3 INT DEFAULT 0)'''.format(RESULT_TABLE)
     singleton_Results_DB.cursor.execute(sql)
+

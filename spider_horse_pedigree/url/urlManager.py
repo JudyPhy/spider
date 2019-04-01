@@ -7,6 +7,8 @@ BASE_URL = 'https://racing.hkjc.com/racing/english/racing-info/newhorse-ajax.asp
 
 RESULTS_TABLE = 'f_race_results_YEAR'
 
+FUTURE_RACE_CARD_TABLE = 't_race_card_future_{0}'
+
 HORSE_RACE_TABLE = 'c_horse_race_info'
 
 
@@ -27,7 +29,8 @@ class UrlManager(object):
     def __getAllResults(self):
         raceNoDict = {}  # race_date & {race_id & race_No}
         spider_horse_code_list = []
-        for year in range(2007, 2020):
+        now = datetime.datetime.now()
+        for year in range(2007, now.year + 1):
             tableName = RESULTS_TABLE.replace('YEAR', str(year))
             if singleton_ScrubDb.table_exists(tableName):
                 singleton_ScrubDb.cursor.execute('select horse_code,race_date,race_id,race_No from {}'.format(tableName))
@@ -46,6 +49,7 @@ class UrlManager(object):
                     race_id = row['race_id']
                     if race_id not in raceNoDict[race_date].keys():
                         raceNoDict[race_date][race_id] = row['race_No']
+        print('spider_horse_code_list:', len(spider_horse_code_list))
         return spider_horse_code_list, raceNoDict
 
     def __getAllHorseRace(self):
@@ -73,7 +77,7 @@ class UrlManager(object):
         return 0
 
     def getUrlList(self):
-        spider_horse_code_list, raceNoDict = self.__getAllResults()
+        spider_horse_code_list, raceNoDict = self.__getAllResults()  # spider_horse_code_list: 14年之后的所有马匹
         print('horse count(>=2014) => ', len(spider_horse_code_list))
 
         codeDict = {}   # horse_code & [race_date, race_no]
@@ -115,6 +119,31 @@ class UrlManager(object):
             else:
                 error.append(code)
         print('error:', error)
+        # urlList = []
+        # urlList.append('https://racing.hkjc.com/racing/english/racing-info/newhorse-ajax.asp?raceDate=20181125&raceNo=1&brandNo=C015')
+        return urlList
+
+    def getFutureUrlList(self):
+        urlList = []
+        race_date = '20190327'
+        year = race_date[:len(race_date) - 4]
+        tableName = FUTURE_RACE_CARD_TABLE.replace('{0}', str(year))
+        if singleton_ScrubDb.table_exists(tableName):
+            singleton_ScrubDb.cursor.execute('select horse_code, race_No from {} where race_date=%s'.format(tableName), race_date)
+            rows = singleton_ScrubDb.cursor.fetchall()
+            singleton_ScrubDb.connect.commit()
+            code_dict = {}  # horse_code & race_No
+            spider_horse_code_list, raceNoDict = self.__getAllResults()
+            for row in rows:
+                horse_code = row['horse_code'].strip()
+                if (horse_code not in spider_horse_code_list) and (horse_code not in code_dict.keys()):
+                    code_dict[horse_code] = row['race_No']
+            print(code_dict)
+            for code, race_No in code_dict.items():
+                u = BASE_URL.replace('{0}', str(year)).replace('{1}', str(race_No)).replace('{2}', code)
+                urlList.append(u)
+        else:
+            print('table[', tableName, '] not exist')
         return urlList
 
 

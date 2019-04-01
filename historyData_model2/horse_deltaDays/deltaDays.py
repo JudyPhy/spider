@@ -46,3 +46,4 @@ def getDeltaDaysDict(history_rows):
             deltaDays = __getDeltaDays(dict_start_date[horse_code], row['race_date'])
         deltaDaysDict[new_race_id][horse_code] = deltaDays
     return deltaDaysDict
+

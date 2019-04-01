@@ -17,14 +17,15 @@ from horse_jockey import horse_jockey as cal_horse_jockey
 from horse_trainer import horse_trainer as cal_horse_trainer
 from jockey_trainer import jockey_trainer as cal_jockey_trainer
 
-TODAY_HORSE_FROM_TABLE = singleton_cfg.getTodayHorseInfoTable()
+TODAY_HORSE_TABLE = singleton_cfg.getTodayHorseInfoTable()
 
 
 # 获取当天比赛的马匹数据
 def __searchTodayHorse():
     all_info = {}   # horse_code & row
-    if singleton_Scrub_DB.table_exists(TODAY_HORSE_FROM_TABLE):
-        singleton_Scrub_DB.cursor.execute("select code,current_rating,season_stakes,total_stakes from {}".format(TODAY_HORSE_FROM_TABLE))
+    if singleton_Scrub_DB.table_exists(TODAY_HORSE_TABLE):
+        race_date = singleton_cfg.getRaceDate()
+        singleton_Scrub_DB.cursor.execute("select code,current_rating,season_stakes,total_stakes from {} where race_date=%s".format(TODAY_HORSE_TABLE), race_date)
         all_list = singleton_Scrub_DB.cursor.fetchall()
         singleton_Scrub_DB.connect.commit()
         for row in all_list:
@@ -33,8 +34,9 @@ def __searchTodayHorse():
                 all_info[key] = row
             else:
                 common.log('has repeat horse in today_orig_horse_table, code=' + key)
+        print('[source_dateas]today horse count=', len(all_info))
     else:
-        common.log('sourse_datas: Table[' + TODAY_HORSE_FROM_TABLE + '] not exist.')
+        common.log('sourse_datas: Table[' + TODAY_HORSE_TABLE + '] not exist.')
     return all_info
 
 
@@ -150,7 +152,7 @@ def prepareDatas(today_rows):
     data_dict['horse_raceStarts'] = cal_horse_starts.getTodayHorseStartsDict(today_rows)
     data_dict['horse_deltaDays'] = cal_horse_deltaDays.getTodayDeltaDaysDict(today_rows)
     data_dict['horse_score'] = cal_horse_score.getAllHorseScoreDict(int(singleton_cfg.getRaceDate()))
-    data_dict['horse_age'] = cal_horse_age.getTodayHorseAgeDict()
+    # data_dict['horse_age'] = cal_horse_age.getTodayHorseAgeDict()
     data_dict['horse_speed'] = cal_horse_speed.getTodayRaceHorseSpeedDict(today_rows)
     data_dict['current_rating'] = cal_current_rating.getTodayCurrentRatingBeforeRace()
     data_dict['season_stakes'] = cal_season_stakes.getTodaySeasonStakesBeforeRace()

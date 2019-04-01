@@ -38,7 +38,7 @@ def toSeasonID(race_date):
 
 
 # 将原数据转成目标数据结构
-def __toTargetStruct(row, race_count, season_stakes, total_stakes, horse_age, horse_starts, horse_score, horse_speed, current_rating,
+def __toTargetStruct(row, race_count, season_stakes, total_stakes, horse_age, horse_starts, horse_score, horse_speed, current_rating, rtg,
                      horse_deltaDays, dis_ave_speed, dis_ave_horse_speed, go_ave_speed, go_ave_horse_speed, new_dis_array,
                      jockey_trainer_count, horse_jockey_count, horse_trainer_count):
     race_date = row['race_date']
@@ -98,7 +98,7 @@ def __toTargetStruct(row, race_count, season_stakes, total_stakes, horse_age, ho
     horse_total_allRace = horse_starts['Total_allRace']
 
     item = (race_date, race_id, horse_code, horse_no, pla_odds, win_odds, plc, race_count, race_no, site, cls, distance, bonus, going,
-            course, actual_wt, declar_horse_wt, draw, current_rating, season_stakes, total_stakes, horse_age,
+            course, actual_wt, declar_horse_wt, draw, rtg, season_stakes, total_stakes, horse_age,
             horse_star_0_curRace, horse_star_1_curRace, horse_star_2_curRace, horse_star_3_curRace, horse_total_curRace,
             horse_star_0_allRace, horse_star_1_allRace, horse_star_2_allRace, horse_star_3_allRace, horse_total_allRace,
             horse_deltaDays, horse_score, horse_speed[0], horse_speed[1], dis_ave_speed, dis_ave_horse_speed,
@@ -129,6 +129,7 @@ def main():
             horse_speed = source_datas.getHorseSpeed(row, data_dict['horse_speed'])
             # current rating before
             current_rating = source_datas.getCurrentRating(row, data_dict['current_rating'])
+            rtg = source_datas.getRtg(row, data_dict['rtg'])
             # dis_ave_speed
             dis_ave_speed = source_datas.getDistanceAveSpeed(row, data_dict['dis_avesr'])
             # dis_ave_horse_speed
@@ -152,7 +153,7 @@ def main():
 
             # 将数据组装成目标数据结构
             cur_row = __toTargetStruct(row, race_count, season_stakes, total_stakes, horse_age, horse_starts,
-                                       horse_score, horse_speed, current_rating, horse_deltaDays, dis_ave_speed, dis_ave_horse_speed,
+                                       horse_score, horse_speed, current_rating, rtg, horse_deltaDays, dis_ave_speed, dis_ave_horse_speed,
                                        go_ave_speed, go_ave_horse_speed, new_dis_array, jockey_trainer_count, horse_jockey_count,
                                        horse_trainer_count)
             item = (cur_row)

@@ -1,5 +1,4 @@
 from chromeDriver import singleton_chrome
-from common import common
 import time
 
 
@@ -54,10 +53,10 @@ class HorseInfoParse(object):
                     elif 'DISTANCE' in item:
                         self.horse_info['distance'] = item.split(':')[1].strip()
                     elif 'TRACK AFFINITY' in item:
-                        self.horse_info['track_affinity'] = item.split(':')[1].strip()
+                        self.horse_info['track_affinity'] = item.split(':')[1].strip().replace('，', ',')
                 print(self.horse_info['grow'], ',', self.horse_info['distance'], ',', self.horse_info['track_affinity'])
         except Exception as error:
-            common.log('chrome page error:' + url + '\n' + str(error))
+            print('chrome page error:' + url + '\n' + str(error))
         pass
 
 

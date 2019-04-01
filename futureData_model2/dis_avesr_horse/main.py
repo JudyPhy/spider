@@ -9,7 +9,12 @@ RESULTS_TABLE = 'f_race_results_{0}'
 
 def __getRaceSeconds(time_text):
     seconds = 0
-    array_time = time_text.split('.')
+    array_time = []
+    array1 = time_text.split('.')
+    for item1 in array1:
+        array2 = item1.split(':')
+        for item2 in array2:
+            array_time.append(item2)
     if len(array_time) == 3:
         seconds = int(array_time[0]) * 60 + int(array_time[1]) + int(array_time[2]) / 100
     elif len(array_time) == 2:

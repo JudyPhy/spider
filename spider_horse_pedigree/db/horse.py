@@ -13,6 +13,8 @@ def process_HorseInfoItem(item):
         if repetition:
             pass
         else:
+            common.log('inster new horse:' + item['code'])
+            print(item)
             singleton_ScrubDb.cursor.execute(
                 """insert into {}(name, code, grow, distance, track_affinity)
                 value (%s, %s, %s, %s, %s)""".format(tableName),

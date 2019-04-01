@@ -32,7 +32,12 @@ def __getHorseHistoryRaceDict(horse_code_list, today_race_date):
                             if row['finish_time'] == '':
                                 race_time = 0
                             else:
-                                array_finish_time = row['finish_time'].split('.')
+                                array_finish_time = []
+                                array1 = row['finish_time'].split('.')
+                                for item1 in array1:
+                                    array2 = item1.split(':')
+                                    for item2 in array2:
+                                        array_finish_time.append(item2)
                                 race_time = int(array_finish_time[0]) * 60 + int(array_finish_time[1]) + int(array_finish_time[2]) / 100
                             horseRaceDict[horse_code][new_race_id] = [int(row['distance']), race_time]
         else:

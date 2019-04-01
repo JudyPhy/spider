@@ -29,23 +29,21 @@ def log(msg):
     writer.writerow([msg, now])
     file.close()
 
+FUTURE_HORSE_INFO_TABLE = 'a_future_horse_info_{0}'
+
+
 def getFutureHorseTableList():
     tableList = []
-    for year in range(2019, 2017, -1):
-        for month in range(12, 0, -1):
-            for day in range(31, 0, -1):
-                str_date = str(year) + toDoubleDigitStr(month) + toDoubleDigitStr(day)
-                if str_date == '20181219':
-                    str_date = 'B_' + str_date
-                tableName = 'a_future_horse_info_' + str_date
-                if singleton_Scrub_DB.table_exists(tableName):
-                    tableList.append(tableName)
+    now = datetime.datetime.now()
+    for year in range(now.year, 2017, -1):
+        # tableList.append('a_future_horse_info_B_20181219')
+        tableList.append(FUTURE_HORSE_INFO_TABLE.replace('{0}', str(year)))
     return tableList
-
 
 def getHistoryHorseTableList():
     tableList = []
-    for year in range(2019, 2012, -1):
+    now = datetime.datetime.now()
+    for year in range(now.year, 2012, -1):
         for month in range(12, 0, -1):
             for day in range(31, 0, -1):
                 str_date = str(year) + toDoubleDigitStr(month) + toDoubleDigitStr(day)
@@ -53,3 +51,4 @@ def getHistoryHorseTableList():
                 if singleton_Scrub_DB.table_exists(tableName):
                     tableList.append(tableName)
     return tableList
+

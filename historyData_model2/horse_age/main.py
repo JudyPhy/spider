@@ -24,12 +24,11 @@ def __getHorseAgeBeforeRace():
     tableList_future = common.getFutureHorseTableList()
     for table in tableList_future:
         if singleton_Scrub_DB.table_exists(table):
-            array_race_date = table.split('_')
-            race_date = array_race_date[len(array_race_date) - 1]
-            singleton_Scrub_DB.cursor.execute('select code,age from {}'.format(table))
+            singleton_Scrub_DB.cursor.execute('select race_date,code,age from {}'.format(table))
             rows = singleton_Scrub_DB.cursor.fetchall()
             singleton_Scrub_DB.connect.commit()
             for row in rows:
+                race_date = row['race_date']
                 code = row['code']
                 age = row['age']
                 if age > 0:
@@ -42,7 +41,7 @@ def __getHorseAgeBeforeRace():
                         future_no_age_horse.append(code)
         else:
             print('horse_age: table[' + table + '] not exist')
-    common.log('horse[' + error_str + '] in future horse table have no age.')
+    print('horse[' + error_str + '] in future horse table have no age.')
     return future_horse_age_dict
 
 
