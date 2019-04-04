@@ -13,6 +13,8 @@ FUTURE_RECE_CARD_TABLE = 't_race_card_future_{0}'
 
 RESULTS_TABLE = 'f_race_results_{0}'
 
+HORSE_SECTIONAL_TIME_TABLE = 'g_display_sectional_time_{0}'
+
 def toDoubleDigitStr(interger):
     v_char = str(interger)
     while len(v_char) < 2:
