@@ -25,14 +25,14 @@ class PageParse(object):
     def __parseSectionalOddsTable(self):
         self.oddsDict = {}    # horse_no & []
         self.sectionalTime = []
-        tables = singleton_chrome.driver.find_elements_by_xpath('//table')
-        if len(tables) > 1:
-            trs = tables[1].find_elements_by_xpath('.//tr')
+        tables = singleton_chrome.driver.find_elements_by_xpath('//table[@class="small"]')
+        if len(tables) > 0:
+            trs = tables[0].find_elements_by_xpath('.//tr')
             tds_line2 = trs[1].find_elements_by_xpath('.//td')
             for td_line2 in tds_line2[3:]:
                 self.sectionalTime.append(td_line2.text)
-            print(self.sectionalTime)
-            for tr_line in trs[2:]:
+            print('sectionalTime:', self.sectionalTime)
+            for tr_line in trs[1 + 1:]:
                 tds_line = tr_line.find_elements_by_xpath('.//td')
                 horse_no = int(tds_line[0].text)
                 if horse_no not in self.oddsDict.keys():
@@ -41,6 +41,7 @@ class PageParse(object):
                     continue
                 # horse_name = tds_line[1].text
                 # self.oddsDict[horse_no].append(horse_name)
+                # print('draw text:', tds_line[2].text)
                 if tds_line[2].text == '':
                     draw = 0
                 else:
