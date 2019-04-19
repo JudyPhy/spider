@@ -40,7 +40,7 @@ def __insert(all_list):
         current_rating, declar_horse_wt, actual_wt, rating_trend, dct_trend, act_trend, odd_trend, rest, new_dis,
         draw_record_before4, draw_record_total, trainer_record_before4, trainer_record_total,
         jockey_record_before4, jockey_record_total, jockey_recent_before4, jockey_recent_total,
-        horse_last_dst_time_prev, horse_last_dst_time_ave, horse_last_dst_time_min,
+        horse_last_dst_time_prev, horse_last_dst_time_ave,
         jockey_hot, jockey_hot_before4, odd_wave) 
         values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
@@ -67,7 +67,7 @@ def __insert(all_list):
         %s, %s, %s, %s, %s, %s, %s, %s, %s,
         %s, %s, %s, %s,
         %s, %s, %s, %s, 
-        %s, %s, %s,
+        %s, %s,
         %s, %s, %s)'''.format(RESULT_TABLE)
         singleton_Results_DB.cursor.executemany(sql, all_list)
         singleton_Results_DB.connect.commit()
@@ -168,7 +168,6 @@ def __createNewTable():
     jockey_recent_total INT DEFAULT 0,
     horse_last_dst_time_prev FLOAT DEFAULT 0,
     horse_last_dst_time_ave FLOAT DEFAULT 0,
-    horse_last_dst_time_min FLOAT DEFAULT 0,
     jockey_hot INT DEFAULT 0,
     jockey_hot_before4 INT DEFAULT 0,
     odd_wave FLOAT DEFAULT 0)'''.format(RESULT_TABLE)

@@ -20,6 +20,7 @@ from horse_speed import horse_cls_speed
 from horse_speed import horse_draw_speed
 from horse_speed import horse_jockey_speed
 from horse_speed import horse_gear_speed
+from horse_speed import horse_last_dst_time
 from horse_trend import horse_dct_trend
 from horse_trend import horse_act_trend
 from horse_trend import horse_odds_trend
@@ -30,7 +31,6 @@ from record import trainer_record
 from record import jockey_record
 from record import jockey_recent
 from hot import jockey_hot
-from horse_speed import horse_last_dst_time
 
 
 def __getSeasonId(race_date):   # race_date: 20190202 str
@@ -206,13 +206,6 @@ def getHorseJockeySpeed(race_date_No, horse_code, dict):
     return [-1, -1, -1]
 
 
-def getHorseLastDstTimePrev(race_date_No, horse_code, dict):
-    if (race_date_No in dict.keys()) and (horse_code in dict[race_date_No].keys()):
-        return dict[race_date_No][horse_code]
-    print("HorseLastDstTimePrev can't find:", race_date_No, horse_code)
-    return -1
-
-
 def getHorseLastDstTimeAve(race_date_No, horse_code, dict):
     if (race_date_No in dict.keys()) and (horse_code in dict[race_date_No].keys()):
         return dict[race_date_No][horse_code]
@@ -220,10 +213,10 @@ def getHorseLastDstTimeAve(race_date_No, horse_code, dict):
     return -1
 
 
-def getHorseLastDstTimeMin(race_date_No, horse_code, dict):
+def getHorseLastDstTimePrev(race_date_No, horse_code, dict):
     if (race_date_No in dict.keys()) and (horse_code in dict[race_date_No].keys()):
         return dict[race_date_No][horse_code]
-    print("HorseLastDstTimeMin can't find:", race_date_No, horse_code)
+    print("HorseLastDstTimePrev can't find:", race_date_No, horse_code)
     return -1
 
 
@@ -330,7 +323,6 @@ def getJockeyHotBefore4(race_date_No, horse_code, dict):
 # horse_gear_speed: race_date_No & {horse_code & [highest_speed, lowest_speed, avr_speed]}
 # horse_last_dst_time_prev: race_date_No & {horse_code & horse_last_dst_time_prev}
 # horse_last_dst_time_ave: race_date_No & {horse_code & horse_last_dst_time_ave}
-# horse_last_dst_time_min: race_date_No & {horse_code & horse_last_dst_time_min}
 
 # rtg: race_date_No & {horse_code & rtg}
 
@@ -374,7 +366,7 @@ def prepareDatas(raceCard_rows, results_rows):
     data_dict['horse_draw_speed'] = horse_draw_speed.getHorseDrawSpeed(raceCard_rows, results_rows)
     data_dict['horse_gear_speed'] = horse_gear_speed.getHorseGearSpeed(raceCard_rows, results_rows)
     data_dict['horse_jockey_speed'] = horse_jockey_speed.getHorseJockeySpeed(raceCard_rows, results_rows)
-    data_dict['horse_last_dst_time_prev'], data_dict['horse_last_dst_time_ave'], data_dict['horse_last_dst_time_min'] = horse_last_dst_time.getHorseLastDstTimePrev(raceCard_rows, going_dict)
+    data_dict['horse_last_dst_time_ave'], data_dict['horse_last_dst_time_prev'] = horse_last_dst_time.getHorseLastDstTimeDicts(raceCard_rows)
 
     data_dict['rtg'] = current_rating.getRtgDict(raceCard_rows)
 

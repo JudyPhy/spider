@@ -37,6 +37,7 @@ def __getLastDstTime(row):
 
 def __getHorseLastDstTime():
     last_dst_time_dict = {}  # race_date_No & {horse_code & last_dst_time}
+    scgd_dict = {}  # race_date_No & scgd(site_course_going_distance)
     now = datetime.datetime.now()
     for year in range(2014, now.year + 1):
         tableName = common.HORSE_SECTIONAL_TIME_TABLE.replace('{0}', str(year))
@@ -55,17 +56,32 @@ def __getHorseLastDstTime():
                     print('last_time none:', row)
                 else:
                     last_dst_time_dict[race_date_No][horse_code] = __parseTime(__getLastDstTime(row))
-    return last_dst_time_dict
+
+                if race_date_No not in scgd_dict.keys():
+                    site = row['site'].replace(' ', '')
+                    course = row['course'].strip()
+                    going = row['going'].replace(' ', '').upper()
+                    if going == '':
+                        going = 'GOOD'
+                    distance = str(int(row['distance']))
+                    scgd = site + '_' + course + '_' + going + '_' + distance
+                    scgd_dict[race_date_No] = scgd
+        else:
+            print('table[', tableName, '] not exist')
+    return last_dst_time_dict, scgd_dict
 
 
-def __getGoing(race_date_No, horse_code, going_dict):
-    if (race_date_No in going_dict.keys()) and (horse_code in going_dict[race_date_No].keys()):
-        return going_dict[race_date_No][horse_code]
-    return ''
+def __getScgd(race_date_No, scgd_dict):
+    if race_date_No in scgd_dict.keys():
+        return scgd_dict[race_date_No]
+    else:
+        return None
 
 
-def getHorseLastDstTimePrev(raceCard_rows, going_dict):
-    last_dst_time_dict = __getHorseLastDstTime()  # race_date_No & {horse_code & last_dst_time}
+def getHorseLastDstTimeDicts(raceCard_rows):
+    # last_dst_time_dict: race_date_No & {horse_code & last_dst_time}
+    # scgd_dict: race_date_No & scgd(site_course_going_distance)
+    last_dst_time_dict, scgd_dict = __getHorseLastDstTime()
 
     temp_raceCard_rows = {}  # race_date_No & [rows]
     for row in raceCard_rows:
@@ -74,64 +90,49 @@ def getHorseLastDstTimePrev(raceCard_rows, going_dict):
             temp_raceCard_rows[race_date_No] = []
         temp_raceCard_rows[race_date_No].append(row)
 
-    # log = []
-    last_dst_time_prev_dict = {}  # race_date_No & {horse_code & last_dst_time_prev}
     last_dst_time_ave_dict = {}  # race_date_No & {horse_code & last_dst_time_ave}
-    last_dst_time_min_dict = {} # race_date_No & {horse_code & last_dst_time_min}
-    temp_last_dst_time_dict = {}   # horse_code_site_course_going_distance & [last_dst_time(按时间先后排序)]
-    sorted_date_No_list = sorted(temp_raceCard_rows.keys())
-    for race_date_No in sorted_date_No_list:
-        if race_date_No not in last_dst_time_prev_dict.keys():
-            last_dst_time_prev_dict[race_date_No] = {}
+    prev_last_dst_time_dict = {}  # race_date_No & {horse_code & prev_last_dst_time}
+    temp_time_dict = {}  # horse_code & {scgd & [last_dst_time]}
+    sort_date_No_list = sorted(temp_raceCard_rows.keys())
+    for race_date_No in sort_date_No_list:
         if race_date_No not in last_dst_time_ave_dict.keys():
             last_dst_time_ave_dict[race_date_No] = {}
-        if race_date_No not in last_dst_time_min_dict.keys():
-            last_dst_time_min_dict[race_date_No] = {}
+        if race_date_No not in prev_last_dst_time_dict.keys():
+            prev_last_dst_time_dict[race_date_No] = {}
         rows = temp_raceCard_rows[race_date_No]
         for row in rows:
             horse_code = row['horse_code'].strip()
-            site = row['site'].replace(' ', '')
-            course = row['course'].strip()
-            going = __getGoing(race_date_No, horse_code, going_dict)
-            distance = int(row['distance'])
-            horse_code_site_course_going_distance = horse_code + '_' + site + '_' + course + '_' + going + '_' + str(distance)
+            scgd = __getScgd(race_date_No, scgd_dict)
 
-            # 赛前
-            if horse_code_site_course_going_distance in temp_last_dst_time_dict.keys():
-                array = temp_last_dst_time_dict[horse_code_site_course_going_distance]
-                # prev
-                last_dst_time_prev_dict[race_date_No][horse_code] = array[len(array) - 1]
-                # ave
+            if scgd == None:
+                continue
+
+            # 璧涘墠
+            if (horse_code in temp_time_dict.keys()) and (scgd in temp_time_dict[horse_code].keys()):
+                array_time = temp_time_dict[horse_code][scgd]
                 sum = 0
-                for value in array:
+                for value in array_time:
                     sum += value
-                last_dst_time_ave_dict[race_date_No][horse_code] = sum/len(array)
-                # min
-                minTime = array[0]
-                for value in array:
-                    if value < minTime:
-                        minTime = value
-                last_dst_time_min_dict[race_date_No][horse_code] = minTime
+                last_dst_time_ave_dict[race_date_No][horse_code] = sum/len(array_time)
+                prev_last_dst_time_dict[race_date_No][horse_code] = array_time[len(array_time) - 1]
             else:
-                last_dst_time_prev_dict[race_date_No][horse_code] = 0
                 last_dst_time_ave_dict[race_date_No][horse_code] = 0
-                last_dst_time_min_dict[race_date_No][horse_code] = 0
+                prev_last_dst_time_dict[race_date_No][horse_code] = 0
 
-            # 赛后
-            if horse_code_site_course_going_distance not in temp_last_dst_time_dict.keys():
-                temp_last_dst_time_dict[horse_code_site_course_going_distance] = []
+            # 璧涘悗
+            if horse_code not in temp_time_dict.keys():
+                temp_time_dict[horse_code] = {}
+            if scgd not in temp_time_dict[horse_code].keys():
+                temp_time_dict[horse_code][scgd] = []
             if (race_date_No in last_dst_time_dict.keys()) and (horse_code in last_dst_time_dict[race_date_No].keys()):
-                temp_last_dst_time_dict[horse_code_site_course_going_distance].append(last_dst_time_dict[race_date_No][horse_code])
-            else:
-                print(race_date_No, ' horse[', horse_code, '] has no last_dst_time')
+                last_time = last_dst_time_dict[race_date_No][horse_code]
+                temp_time_dict[horse_code][scgd].append(last_time)
 
-    #         if 'V082' == horse_code:
-    #             if horse_code_site_course_going_distance not in log:
-    #                 log.append(horse_code_site_course_going_distance)
-    #             print('\n', race_date_No, horse_code_site_course_going_distance)
-    #             print(temp_last_dst_time_dict[horse_code_site_course_going_distance])
-    #             print(last_dst_time_prev_dict[race_date_No][horse_code])
-    # print(log)
-    return last_dst_time_prev_dict, last_dst_time_ave_dict, last_dst_time_min_dict
+            # if 'V082' == horse_code:
+            #     print('\n', race_date_No, scgd)
+            #     print(temp_time_dict[horse_code])
+            #     print(prev_last_dst_time_dict[race_date_No][horse_code])
+            #     print(last_dst_time_ave_dict[race_date_No][horse_code])
 
+    return last_dst_time_ave_dict, prev_last_dst_time_dict
 
