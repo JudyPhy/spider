@@ -48,7 +48,7 @@ def getOddsSectionalTrend(raceCard_rows):
                     # print(race_date_No, 'odds none:', odds3, odds4)
                     odds_sectional_trend_dict[race_date_No][horse_code] = 1
                 else:
-                    odds_sectional_trend_dict[race_date_No][horse_code] = float(odds4)/float(odds3)
+                    odds_sectional_trend_dict[race_date_No][horse_code] = (float(odds4) - float(odds3))/float(odds3)
             else:
                 no_sectional_odds.append([race_date_No, horse_No])
                 odds_sectional_trend_dict[race_date_No][horse_code] = 1

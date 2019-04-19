@@ -65,7 +65,7 @@ def __toTargetStruct(row, results_rows, win_odds_dict, plc_dict, going_dict, ped
                      horse_jockey_record_dict, horse_speed_dict, horse_recent_speed_dict, horse_site_speed_dict,
                      horse_go_speed_dict, horse_course_speed_dict, horse_dst_speed_dict, horse_cls_speed_dict,
                      horse_draw_speed_dict, horse_gear_speed_dict, horse_jockey_speed_dict,
-                     horse_last_dst_time_prev_dict, horse_last_dst_time_ave_dict,
+                     horse_last_dst_time_prev_dict, horse_last_dst_time_ave_dict, horse_last_dst_time_min_dict,
                      rtg_dict, horse_dct_trend_dict, horse_act_trend_dict, horse_odds_trend_dict, horse_odds_sectional_trend_dict,
                      horse_rest_dict, horse_new_dis_dict, draw_record_dict, trainer_record_dict,
                      jockey_record_dict, jockey_recent_dict, jockey_hot_dict, jockey_hot_before4_dict):
@@ -125,6 +125,7 @@ def __toTargetStruct(row, results_rows, win_odds_dict, plc_dict, going_dict, ped
     # horse_odd_speed
     horse_last_dst_time_prev = source_datas.getHorseLastDstTimePrev(__race_date_No, horse_code, horse_last_dst_time_prev_dict)
     horse_last_dst_time_ave = source_datas.getHorseLastDstTimeAve(__race_date_No, horse_code, horse_last_dst_time_ave_dict)
+    horse_last_dst_time_min = source_datas.getHorseLastDstTimeMin(__race_date_No, horse_code, horse_last_dst_time_min_dict)
 
     current_rating = source_datas.getRtg(__race_date_No, horse_code, rtg_dict)
 
@@ -188,7 +189,7 @@ def __toTargetStruct(row, results_rows, win_odds_dict, plc_dict, going_dict, ped
             trainer_record[0] + trainer_record[1] + trainer_record[2] + trainer_record[3], trainer_record[4],
             jockey_record[0] + jockey_record[1] + jockey_record[2] + jockey_record[3], jockey_record[4],
             jockey_recent[0] + jockey_recent[1] + jockey_recent[2] + jockey_recent[3], jockey_recent[4],
-            horse_last_dst_time_prev, horse_last_dst_time_ave,
+            horse_last_dst_time_prev, horse_last_dst_time_ave, horse_last_dst_time_min,
             jockey_hot, jockey_hot_before4, odd_sectional_trend)
     return item
 
@@ -251,6 +252,8 @@ def main():
             horse_last_dst_time_prev_dict = data_dict['horse_last_dst_time_prev']
             # horse_last_dst_time_ave
             horse_last_dst_time_ave_dict = data_dict['horse_last_dst_time_ave']
+            # horse_last_dst_time_min
+            horse_last_dst_time_min_dict = data_dict['horse_last_dst_time_min']
             # rtg
             rtg_dict = data_dict['rtg']
             # horse_dct_trend
@@ -285,7 +288,7 @@ def main():
                                        horse_jockey_record_dict, horse_speed_dict, horse_recent_speed_dict, horse_site_speed_dict,
                                        horse_go_speed_dict, horse_course_speed_dict, horse_dst_speed_dict, horse_cls_speed_dict,
                                        horse_draw_speed_dict, horse_gear_speed_dict, horse_jockey_speed_dict,
-                                       horse_last_dst_time_prev_dict, horse_last_dst_time_ave_dict,
+                                       horse_last_dst_time_prev_dict, horse_last_dst_time_ave_dict, horse_last_dst_time_min_dict,
                                        rtg_dict, horse_dct_trend_dict, horse_act_trend_dict, horse_odds_trend_dict, horse_odds_sectional_trend_dict,
                                        horse_rest_dict, horse_new_dis_dict, draw_record_dict, trainer_record_dict,
                                        jockey_record_dict, jockey_recent_dict, jockey_hot_dict, jockey_hot_before4_dict)

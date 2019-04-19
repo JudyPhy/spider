@@ -1,4 +1,4 @@
-###     ��ȡcurrent_rating     ###
+###     ��ȡcurrent_rating     ###
 from db.database import singleton_Scrub_DB
 from common import common
 
@@ -27,8 +27,7 @@ def __getAllHorseRace():
     return horse_race
 
 
-# all_horse_race: horse_code & {race_date(int) & rtg}
-def __getPrevRaceHorseRtg(horse_code, race_date, all_horse_race):
+def __getHorseRtg(horse_code, race_date, all_horse_race):
     if horse_code in all_horse_race.keys():
         sort_date = sorted(all_horse_race[horse_code].keys())
         index = -1
@@ -39,10 +38,10 @@ def __getPrevRaceHorseRtg(horse_code, race_date, all_horse_race):
         if index >= 0:
             pre_date = sort_date[index]
             return all_horse_race[horse_code][pre_date]
-        if race_date == sort_date[0]:
-            return 52
+    if race_date == sort_date[0]:
+        return 52
     else:
-        print('horse[', horse_code, "] rtg can't find in horseRace,", race_date)
+        print('horse[', horse_code, "] rtg can't find in horseRace,", race_date, index, sort_date)
         return -1
 
 
@@ -56,8 +55,7 @@ def getRtgDict(raceCard_rows):
         horse_code = row['horse_code'].strip()
         rtg = row['rtg']
         if '-' in rtg:
-            # 没有rtg的场次取前一次比赛的rtg
-            rtg_dict[race_date_No][horse_code] = __getPrevRaceHorseRtg(horse_code, int(row['race_date']), all_horse_race)
+            rtg_dict[race_date_No][horse_code] = __getHorseRtg(horse_code, int(row['race_date']), all_horse_race)
         else:
             rtg_dict[race_date_No][horse_code] = int(row['rtg'])
     return rtg_dict
