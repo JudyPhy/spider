@@ -64,7 +64,13 @@ def __getGoing(race_date_No, horse_code, going_dict):
     return ''
 
 
-def getHorseLastDstTimePrev(raceCard_rows, going_dict):
+def __getPlc(race_date_No, horse_code, plc_dict):
+    if (race_date_No in plc_dict.keys()) and (horse_code in plc_dict[race_date_No].keys()):
+        return plc_dict[race_date_No][horse_code]
+    return ''
+
+
+def getHorseLastDstTimePrev(raceCard_rows, going_dict, plc_dict):
     last_dst_time_dict = __getHorseLastDstTime()  # race_date_No & {horse_code & last_dst_time}
 
     temp_raceCard_rows = {}  # race_date_No & [rows]
@@ -118,19 +124,25 @@ def getHorseLastDstTimePrev(raceCard_rows, going_dict):
                 last_dst_time_min_dict[race_date_No][horse_code] = 0
 
             # 赛后
-            if horse_code_site_course_going_distance not in temp_last_dst_time_dict.keys():
-                temp_last_dst_time_dict[horse_code_site_course_going_distance] = []
-            if (race_date_No in last_dst_time_dict.keys()) and (horse_code in last_dst_time_dict[race_date_No].keys()):
-                temp_last_dst_time_dict[horse_code_site_course_going_distance].append(last_dst_time_dict[race_date_No][horse_code])
+            plc = __getPlc(race_date_No, horse_code, plc_dict)
+            if plc not in common.words:
+                if horse_code_site_course_going_distance not in temp_last_dst_time_dict.keys():
+                    temp_last_dst_time_dict[horse_code_site_course_going_distance] = []
+                if (race_date_No in last_dst_time_dict.keys()) and (horse_code in last_dst_time_dict[race_date_No].keys()):
+                    temp_last_dst_time_dict[horse_code_site_course_going_distance].append(last_dst_time_dict[race_date_No][horse_code])
+                else:
+                    print(race_date_No, ' horse[', horse_code, '] has no last_dst_time')
             else:
-                print(race_date_No, ' horse[', horse_code, '] has no last_dst_time')
+                # 无效马不记录
+                pass
 
-    #         if 'V082' == horse_code:
-    #             if horse_code_site_course_going_distance not in log:
-    #                 log.append(horse_code_site_course_going_distance)
-    #             print('\n', race_date_No, horse_code_site_course_going_distance)
-    #             print(temp_last_dst_time_dict[horse_code_site_course_going_distance])
-    #             print(last_dst_time_prev_dict[race_date_No][horse_code])
+            # if 'A270' == horse_code:
+            # # if race_date_No == '2019050508' and row['horse_No'] == 11:
+            #     # if horse_code_site_course_going_distance not in log:
+            #     #     log.append(horse_code_site_course_going_distance)
+            #     print('\n', race_date_No, horse_code_site_course_going_distance)
+            #     print(temp_last_dst_time_dict[horse_code_site_course_going_distance])
+            #     print(last_dst_time_prev_dict[race_date_No][horse_code])
     # print(log)
     return last_dst_time_prev_dict, last_dst_time_ave_dict, last_dst_time_min_dict
 

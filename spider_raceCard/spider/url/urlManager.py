@@ -132,7 +132,7 @@ class UrlManager(object):
                 for type in RACE_TYPE:
                     u = BASE_URL.replace('{0}', race_date).replace('{1}', type).replace('{2}', str(race_no))
                     urlList.append(u)
-        # u = BASE_URL.replace('{0}', '20160529').replace('{1}', 'ST').replace('{2}', str(8))
+        # u = BASE_URL.replace('{0}', '20190505').replace('{1}', 'ST').replace('{2}', str(4))
         # urlList.append(u)
         return urlList
 

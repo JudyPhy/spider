@@ -43,6 +43,14 @@ class RaceResultsParse(object):
                             block = each_td.text
                             row.append(block)
                     self.table_rank_result.append(row)
+                elif len(tds) == 11:
+                    # 没有running position
+                    row = []
+                    for each_td in tds:
+                        block = each_td.text
+                        row.append(block)
+                    row.insert(9, '')
+                    self.table_rank_result.append(row)
         else:
             pass
         for row in self.table_rank_result:

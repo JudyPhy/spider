@@ -6,7 +6,7 @@ class ChromeDriver(object):
 
     def __init__(self):
         options = Options_chrome()
-        options.add_argument('--proxy-server=socks5://192.168.28.5:1')
+        # options.add_argument('--proxy-server=socks5://192.168.28.5:1')
         options.add_argument('--headless')
         options.add_argument('--disable-gpu')
         self.driver = webdriver.Chrome(chrome_options=options)

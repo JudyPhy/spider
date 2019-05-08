@@ -22,7 +22,7 @@ class HorseInfoParse(object):
         try:
             print('request=>', url)
             singleton_chrome.driver.get(url)
-            time.sleep(0.1)
+            time.sleep(0.2)
             self.__parseHorseInfoPage(url)
         finally:
             pass

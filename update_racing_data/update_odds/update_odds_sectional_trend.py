@@ -78,7 +78,7 @@ def __getTimeBaseOdds(today_race_time):
             odds_dict = __getOdds(race_No, timeArray[1])
             base_time_odds[race_No] = [timeArray[1], odds_dict]
 
-    print(base_time_odds[1])
+    # print(base_time_odds[1])
     # for race_No, dict in base_time_odds.items():
     #     print(race_No, dict)
     return base_time_odds
@@ -98,7 +98,7 @@ def updateOddsSectionalTrend(today_table_dict, today_race_time):
                     if (race_no in base_time_odds_dict.keys()) and (horse_no in base_time_odds_dict[race_no][1].keys()):
                         base_odds = base_time_odds_dict[race_no][1][horse_no]
                         cur_odds = row['win_odds']
-                        odds_trend = cur_odds/base_odds
+                        odds_trend = (cur_odds - base_odds)/base_odds
                         singleton_ResultsDb.cursor.execute('update {} set odd_wave=%s where race_no=%s and horse_no=%s'.format(update_table),
                                                            (odds_trend, race_no, horse_no))
                         singleton_ResultsDb.connect.commit()

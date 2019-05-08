@@ -67,5 +67,6 @@ class RaceResultsSpider(object):
                 all_list = []
                 for row in rank_info.table_rank_result:
                     item = self.__getItem(rank_info, row)
+                    # print(item)
                     all_list.append(item)
                 raceResults.exportRank(rank_info.race_date, rank_info.race_id, all_list)

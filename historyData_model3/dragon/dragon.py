@@ -16,13 +16,15 @@ def __searchAllRaceCardData():
             rows = singleton_Scrub_DB.cursor.fetchall()
             singleton_Scrub_DB.connect.commit()
             for row in rows:
-                # if row['race_date'] == '20190324':
-                #     continue
-
-                draw = row['draw'].replace('\xa0', '')
-                if '' != draw:
+                # if row['race_date'] == '20190505' and row['horse_code']:
+                #     print(row)
+                horse_name = row['horse']
+                if '(Withdrawn)' not in horse_name:
                     all.append(row)
 
+                # draw = row['draw'].replace('\xa0', '')
+                # if ('' != draw) and ('-' not in draw):
+                #     all.append(row)
         else:
             common.log('dragon: Table[' + tableName + '] not exist.')
     print('all raceCard=', len(all))

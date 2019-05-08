@@ -42,8 +42,8 @@ def getOddsTrend(raceCard_rows, odds_dict, plc_dict):
                 odds_trend_dict[race_date_No][horse_code] = 0
             else:
                 odds_trend_dict[race_date_No][horse_code] = odds - temp_odds[horse_code]
-                if odds == 0:
-                    print('race horse has 0 win_odds:', race_date_No, horse_code)
+                # if odds == 0:
+                #     print('race horse has 0 win_odds:', race_date_No, horse_code)
 
             # Èüºó
             if plc in common.words:

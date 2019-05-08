@@ -64,7 +64,7 @@ def __getSpiderRaceNoList(start_delta_time_dict):
         elif delta_time < min_delta_time:
             min_delta_time = delta_time
     # 5小时内爬取所有场次比赛
-    if min_delta_time < 5 * 60 * 60:
+    if min_delta_time < 15 * 60 * 60:
         race_no_list = list(start_delta_time_dict.keys())
     return race_no_list
 

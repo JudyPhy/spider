@@ -24,6 +24,12 @@ def __getAllHorseRace():
                 # print('raceCard and horseRace both has no rtg[', horse_code, ']', race_date)
             else:
                 horse_race[horse_code][race_date] = int(row['rtg'])
+
+    # horse_code = 'C822'
+    # if horse_code in horse_race.keys():
+    #     print(horse_race[horse_code])
+    # else:
+    #     print('horse not in horce race!!!')
     return horse_race
 
 
@@ -38,11 +44,11 @@ def __getHorseRtg(horse_code, race_date, all_horse_race):
         if index >= 0:
             pre_date = sort_date[index]
             return all_horse_race[horse_code][pre_date]
-    if race_date == sort_date[0]:
-        return 52
+        if race_date == sort_date[0]:
+            return 52
     else:
-        print('horse[', horse_code, "] rtg can't find in horseRace,", race_date, index, sort_date)
-        return -1
+        print('horse[', horse_code, "] rtg can't find in horseRace,", race_date)
+    return -1
 
 
 def getRtgDict(raceCard_rows):

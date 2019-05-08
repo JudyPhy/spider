@@ -104,6 +104,8 @@ class RaceCardParse(object):
                             if 'Turf' in array_line_3[0]:
                                 self.course = array_line_3[1].replace('Course', '').replace('"', '').strip()
                                 self.distance = int(array_line_3[2].replace('M', ''))
+                                if len(array_line_3) > 3:
+                                    self.going = array_line_3[3].replace(' ', '').upper()
                             else:
                                 self.course = array_line_3[0].replace('Course', '').replace('"', '').strip()
                                 self.distance = int(array_line_3[1].replace('M', ''))
@@ -128,7 +130,7 @@ class RaceCardParse(object):
                                             self.cls = array_cls[len(array_cls) - 1]
         if self.race_No != 0:
             print('race info=> race_date:', self.race_date, ' race_time:', self.race_time, ' race_No:', self.race_No, ' site:', self.site,
-                  ' course:', self.course, ' distance:', self.distance, ' bonus:', self.bonus)
+                  ' course:', self.course, ' distance:', self.distance, ' bonus:', self.bonus, ' going:', self.going)
         pass
 
     def __parse(self,response):

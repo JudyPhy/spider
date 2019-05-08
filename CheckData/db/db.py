@@ -2,7 +2,6 @@ from config.myconfig import singleton_cfg
 import pymysql
 import re
 
-
 # scrub
 class ScrubDB(object):
 

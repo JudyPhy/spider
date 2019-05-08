@@ -36,35 +36,12 @@ def getScrubTableRows(tableName):
     return []
 
 
-def compareModel3HistoryAndToday(table_history, table_today):
-    print('compare:', table_history, ' & ', table_today)
-    rows_history = getResultsTableRows(table_history)
-    rows_today = getResultsTableRows(table_today)
-    key_list = rows_today[0].keys()
-    exKey = ['id', 'pla_odds', 'plc', 'win_odds']
-    for row_today in rows_today:
-        race_date = row_today['race_date']
-        race_no = row_today['race_no']
-        horse_no = row_today['horse_no']
-        print('\n', race_date, race_no, horse_no)
-        find = False
-        for row_history in rows_history:
-            if (row_history['race_date'] == race_date) and (row_history['race_no'] == race_no) and (row_history['horse_no'] == horse_no):
-                find = True
-                for key in key_list:
-                    if key not in exKey:
-                        if row_history[key] != row_today[key]:
-                            common.log(key + '=>history:' + str(row_history[key]) + ', today:' + str(row_today[key]))
-        if not find:
-            common.log(str(race_date) + ',race_no[' + str(race_no) + '],horse_no[' + str(horse_no) + '] find not in history data')
-
-
 def compareHistoryAndToday(table_history, table_today):
     print('compare:', table_history, ' & ', table_today)
     rows_history = getResultsTableRows(table_history)
     rows_today = getResultsTableRows(table_today)
     key_list = rows_today[0].keys()
-    exKey = ['id', 'race_id', 'pla_odds', 'plc', 'win_odds', 'horse_last_dst_time', 'odd_trend', 'odd_wave']
+    exKey = ['id', 'race_id', 'pla_odds', 'plc', 'win_odds', 'odd_trend', 'odd_wave']
     for row_today in rows_today:
         race_date = row_today['race_date']
         race_no = row_today['race_no']
@@ -100,23 +77,41 @@ def compareHistoryAndToday(table_history, table_today):
 
 
 def test():
-    rows = getScrubTableRows('g_display_sectional_time_2019')    # arrange, detailed, horse, race, record, game
+    rows = getScrubTableRows('ff_race_results')    # arrange, detailed, horse, race, record, game
     print(rows[0].keys())
     print(len(rows))
     n = 0
-    race_No_list = []
+    going = ['B+2', 'A', 'C', 'AWT', 'B', 'C+3', 'A+3']
+    array = ['25/06/2014', '28/06/2014']
     for row in rows:
-        # cls = row['class'].strip()
-        if '/04/2019' in row['race_date']:
-            # # class_list.append(cls)
-            # singleton_ScrubDB.cursor.execute('delete from {} where race_date=20190331'.format('t_race_card_future_2019'))
-            # singleton_ScrubDB.connect.commit()
+        if '201406' in row['race_date']:
+            # if row['race_date'] not in array:
+            #     array.append(row['race_date'])
+            # if row['horse_code'] == 'B450':
+            #     print(row)
+            # horse_code = row['horse_code'].strip()
+            # if horse_code not in array:
+            #     array.append(horse_code)
             # print(row)
             n += 1
-    print(race_No_list)
-    print(n)
+    print('n=', n)
 
-compareHistoryAndToday('table_dragon_history_model3s_A', 'today_table_dragon_model3s_20190403')
-# compareModel3HistoryAndToday('table_dragon_history_model3', 'today_table_dragon_model3_20190227')
-# test()
+    rows_old = getScrubTableRows('f_race_results_2014')
+    m = 0
+    for row in rows_old:
+        if '/06/2014' in row['race_date']:    # and row['race_No'] == 1
+            m += 1
+            if row['race_date'] not in array:
+                array.append(row['race_date'])
+    print('m=', m)
+
+    print('array:', array)
+
+# compareHistoryAndToday('table_dragon_history_model3_A', 'today_table_dragon_model3_20190505')
+test()
+
+
+
+
+
 

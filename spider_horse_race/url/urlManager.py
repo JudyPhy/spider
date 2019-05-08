@@ -109,9 +109,12 @@ class UrlManager(object):
         print('loadedHorseCodeList count:', len(loadedHorseCodeList))
 
         urlList = []
+        n = 0
         for code in horseCodeList:
-            # if code not in loadedHorseCodeList:
-            urlList.append(HORSE_URL_PRE + code + HORSE_URL_EX)
+            n += 1
+            if code not in loadedHorseCodeList:
+                urlList.append(HORSE_URL_PRE + code + HORSE_URL_EX)
+        print('n=', n)
         return urlList
 
 

@@ -420,7 +420,7 @@ def prepareDatas(raceCard_rows, results_rows):
     data_dict['horse_draw_speed'] = horse_draw_speed.getHorseDrawSpeed(raceCard_rows, results_rows)
     data_dict['horse_gear_speed'] = horse_gear_speed.getHorseGearSpeed(raceCard_rows, results_rows)
     data_dict['horse_jockey_speed'] = horse_jockey_speed.getHorseJockeySpeed(raceCard_rows, results_rows)
-    data_dict['horse_last_dst_time_prev'], data_dict['horse_last_dst_time_ave'], data_dict['horse_last_dst_time_min'] = horse_last_dst_time.getHorseLastDstTimePrev(raceCard_rows, data_dict['going'])
+    data_dict['horse_last_dst_time_prev'], data_dict['horse_last_dst_time_ave'], data_dict['horse_last_dst_time_min'] = horse_last_dst_time.getHorseLastDstTimePrev(raceCard_rows, data_dict['going'], data_dict['plc'])
 
     data_dict['rtg'] = current_rating.getRtgDict(raceCard_rows)
 

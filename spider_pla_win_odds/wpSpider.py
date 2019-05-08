@@ -7,7 +7,7 @@ from config.myconfig import singleton as singleton_cfg
 class WPSpider(object):
     # BASE_URL = 'https://bet.hkjc.com/default.aspx?url=/racing/pages/odds_wp.aspx&lang=ch&dv=local'
     # BASE_URL = 'https://bet.hkjc.com/racing/pages/odds_wp.aspx?lang=en&date=2019-01-16&venue=hv&raceno='
-    BASE_URL = 'https://bet.hkjc.com/racing/pages/odds_wp.aspx?lang=en&date={0}-{1}-{2}&venue=hv&raceno={3}'
+    BASE_URL = 'https://bet.hkjc.com/racing/pages/odds_wp.aspx?lang=en&date={0}-{1}-{2}&venue=st&raceno={3}'
 
     def __init__(self, race_date, race_no):
         self.infoDict = {}

@@ -16,7 +16,7 @@ def __searchTodayRaceData():
         rows = singleton_Scrub_DB.cursor.fetchall()
         singleton_Scrub_DB.connect.commit()
         for row in rows:
-            if row['draw'].replace('\xa0', '') != '':
+            if '(Withdrawn)' not in row['horse']:
                 today_rows.append(row)
             else:
                 print(row)
