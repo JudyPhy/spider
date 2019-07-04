@@ -6,6 +6,40 @@ from dragon import export
 import datetime
 
 
+def isOddsLowest(win_odds, rows):
+    for horse_code, row in rows.items():
+        cur_plc = row['plc'].replace('DH', '')
+        if cur_plc not in common.words:
+            cur_odds = float(row['win_odds'])
+            if cur_odds < win_odds:
+                return False
+    return True
+
+
+def test(sort_history_raceCard_rows, sort_history_raceResults_rows, horse_pedigree_rows, display_sectional_time_rows, odds_sectional_rows):
+    records = []
+    for race_date_No, dict in sort_history_raceCard_rows.items():
+        for horse_code, row in dict.items():
+            if (race_date_No in sort_history_raceResults_rows.keys()) and (horse_code in sort_history_raceResults_rows[race_date_No].keys()):
+                cur_date = int(race_date_No[: len(race_date_No) - 2])
+                cur_plc = sort_history_raceResults_rows[race_date_No][horse_code]['plc'].replace('DH', '')
+                if (cur_date > 20160900) and (cur_plc not in common.words):
+                    cur_distance = int(sort_history_raceResults_rows[race_date_No][horse_code]['distance'])
+                    cur_site = sort_history_raceResults_rows[race_date_No][horse_code]['site'].replace(' ', '')
+                    cur_course = sort_history_raceResults_rows[race_date_No][horse_code]['course'].strip()
+                    if '"' in cur_course:
+                        array_course = cur_course.split('"')
+                        cur_course = array_course[1].strip()
+                    cur_draw = int(sort_history_raceResults_rows[race_date_No][horse_code]['draw'])
+                    cur_odds = float(sort_history_raceResults_rows[race_date_No][horse_code]['win_odds'])
+                    cur_is_lowest_odds = isOddsLowest(cur_odds, sort_history_raceResults_rows[race_date_No])
+                    if (cur_distance == 1200) and (cur_site == 'ShaTin') and (cur_course == 'A') and \
+                            (cur_is_lowest_odds == True) and (int(cur_plc) < 4):
+                        if race_date_No not in records:
+                            records.append(race_date_No)
+    print('\n\nrecords:', len(records))
+
+
 def main():
     today = datetime.datetime.now()
     today_date = str(today.year) + common.toDoubleDigitStr(today.month) + common.toDoubleDigitStr(today.day)

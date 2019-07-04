@@ -152,21 +152,18 @@ def RequestHistoryDisplaySectionalTimeRows(race_date):
 
 def RequestSectionalOdds():
     odds_sectional_rows = {}    # race_date_No & {horse_No & row}
-    for year in range(2014, datetime.datetime.now().year + 1):
-        tableName = common.ODDS_SECTIONAL_TABLE.replace('{0}', str(year))
-        if singleton_Scrub_DB.table_exists(tableName):
-            singleton_Scrub_DB.cursor.execute('select * from {}'.format(tableName))
-            rows = singleton_Scrub_DB.cursor.fetchall()
-            singleton_Scrub_DB.connect.commit()
-            for row in rows:
-                race_date = row['race_date']
-                race_No = row['race_No']
-                race_date_No = race_date + common.toDoubleDigitStr(race_No)
-                if race_date_No not in odds_sectional_rows.keys():
-                    odds_sectional_rows[race_date_No] = {}
-                horse_No = row['horse_No']
-                odds_sectional_rows[race_date_No][horse_No] = row
-        else:
-            print('dragon: Table[' + tableName + '] not exist.')
+    tableName = common.ODDS_SECTIONAL_TABLE
+    if singleton_Scrub_DB.table_exists(tableName):
+        singleton_Scrub_DB.cursor.execute('select * from {}'.format(tableName))
+        rows = singleton_Scrub_DB.cursor.fetchall()
+        singleton_Scrub_DB.connect.commit()
+        for row in rows:
+            race_date = row['race_date']
+            race_No = row['race_No']
+            race_date_No = race_date + common.toDoubleDigitStr(race_No)
+            if race_date_No not in odds_sectional_rows.keys():
+                odds_sectional_rows[race_date_No] = {}
+            horse_No = row['horse_No']
+            odds_sectional_rows[race_date_No][horse_No] = row
     return odds_sectional_rows
 

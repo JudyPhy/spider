@@ -5,6 +5,8 @@ from url.horse_pedigree_url import HorsePedigreeUrl
 from url.display_sectional_time_url import DisplaySectionalTimeUrl
 from url.race_card_url import RaceCardSpiderUrl
 from url.race_dividend_url import RaceDividendUrl
+from url.course_standard_times_url import CourseStandardTimesUrl
+from url.sectional_odds_url import SectionalOddsUrl
 import datetime
 from common import common
 
@@ -153,6 +155,26 @@ class UrlManager(object):
         print('future race card url count=', len(urlList))
         return urlList
 
+    def GetSectionalOddsUrlList(self, from_date, to_date, rmLoaded):
+        race_date_No_dict = singleton_urlUtil.getRaceDateAndNoDictByDateRange(from_date, to_date)
+        urlList = []
+        if rmLoaded == True:
+            # 剔除已爬取的网址
+            loadedRaceDateNoDict = SectionalOddsUrl().getLoadedRaceDataAndNoDict()
+            for race_date, max_race_No in race_date_No_dict.items():
+                for race_No in range(1, max_race_No + 1):
+                    if (race_date in loadedRaceDateNoDict.keys()) and (race_No in loadedRaceDateNoDict[race_date]):
+                        continue
+                    u = SectionalOddsUrl().getUrl(race_date, race_No)
+                    urlList.append(u)
+        else:
+            for race_date, max_race_No in race_date_No_dict.items():
+                for race_No in range(1, max_race_No + 1):
+                    u = SectionalOddsUrl().getUrl(race_date, race_No)
+                    urlList.append(u)
+        print('sectional odds url count=', len(urlList))
+        return urlList
+
     def GetRaceDividendUrlList(self, from_date, to_date, rmLoaded):
         race_date_No_dict = singleton_urlUtil.getRaceDateAndNoDictByDateRange(from_date, to_date)
         urlList = []
@@ -169,6 +191,12 @@ class UrlManager(object):
                 u = RaceDividendUrl().getUrl(race_date)
                 urlList.append(u)
         print('race dividend url count=', len(urlList))
+        return urlList
+
+    def GetCourseStandardTimesUrlList(self):
+        urlList = []
+        u = CourseStandardTimesUrl().getUrl()
+        urlList.append(u)
         return urlList
 
 

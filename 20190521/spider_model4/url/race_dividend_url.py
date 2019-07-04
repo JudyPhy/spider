@@ -1,5 +1,4 @@
 from db.db import singleton_ScrubDb
-from common import common
 
 
 class RaceDividendUrl(object):

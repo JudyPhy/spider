@@ -60,7 +60,7 @@ def exportToFutureDb(race_info, race_card_table):
                 cur_list += [race_info['race_date'], race_info['race_No'], row[0]]
                 singleton_ScrubDb.cursor.execute(sql_update, (cur_list))
             else:
-                sql_insert = """insert into {}(race_No, race_date, site, race_time, going, distance, course, cls, bonus, race_id, 
+                sql_insert = """insert into {}(race_No, race_date, site, race_time, course, going, distance, cls, bonus, race_id, 
                 horse_No, last_6_runs, color, horse, horse_code, wt, jockey, over_wt, draw, trainer, 
                 rtg, rtg_as, horse_wt_dec, wt_as_dec, best_time, age, wfa, sex, season_stacks, priority, 
                 gear, owner, sire, dam, import_cat)

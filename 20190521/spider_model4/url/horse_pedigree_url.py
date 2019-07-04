@@ -1,6 +1,5 @@
 from db.db import singleton_ScrubDb
 from url.horse_race_url import HorseRaceUrl
-from url.race_results_url import RaceResultsUrl
 import datetime
 from common import common
 

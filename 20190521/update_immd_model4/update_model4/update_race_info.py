@@ -112,14 +112,14 @@ def updateModel4(update_table, dict, immd_rows, lastest_rows, race_results_rows,
                 prev_draw = prev_row['draw_label']
                 cur_draw= cur_row['draw']
                 if prev_draw != cur_draw:
-                    common.log('update draw:' + str(race_No) + ' horse_no=' + str(horse_No) + ' prev/old:' + prev_draw + '=>' + cur_draw)
+                    common.log('update draw:' + str(race_No) + ' horse_no=' + str(horse_No) + ' prev/old:' + str(prev_draw) + '=>' + str(cur_draw))
                     __updateDb(update_table, 'draw_label', race_No, horse_No, cur_draw)
                     update_keys.append('draw')
                 # actual_wt
                 prev_actual_wt = prev_row['actual_wt']
                 cur_actual_wt = cur_row['wt']
                 if prev_actual_wt != cur_actual_wt:
-                    common.log('update actual_wt:' + str(race_No) + ' horse_no=' + str(horse_No) + ' prev/old:' + prev_actual_wt + '=>' + cur_actual_wt)
+                    common.log('update actual_wt:' + str(race_No) + ' horse_no=' + str(horse_No) + ' prev/old:' + str(prev_actual_wt) + '=>' + str(cur_actual_wt))
                     __updateDb(update_table, 'actual_wt', race_No, horse_No, cur_actual_wt)
                     update_keys.append('actual_wt')
                 __updateRelativeData(race_results_rows, race_card_history_rows, display_sectional_time_rows,

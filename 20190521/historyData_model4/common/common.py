@@ -13,7 +13,7 @@ HORSE_SECTIONAL_TIME_TABLE = 'gg_display_sectional_time'
 
 PEDIGREE_TABLE = 'ee_horse_pedigree'
 
-ODDS_SECTIONAL_TABLE = 'h_sectional_odds_{0}'
+ODDS_SECTIONAL_TABLE = 'hh_sectional_odds'
 
 
 def toDoubleDigitStr(interger):

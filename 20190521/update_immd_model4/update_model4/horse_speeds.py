@@ -211,9 +211,9 @@ def getDrawSpeeds(horse_code, draw, race_results_rows):
         if horse_code in dict.keys():
             plc = dict[horse_code]['plc'].replace('DH', '')
             cur_draw = dict[horse_code]['draw']
-            cur_distance = int(dict[horse_code]['distance'])
-            cur_time = common.GetTotalSeconds(dict[horse_code]['finish_time'])
             if (plc not in common.words) and (int(cur_draw) == draw):
+                cur_distance = int(dict[horse_code]['distance'])
+                cur_time = common.GetTotalSeconds(dict[horse_code]['finish_time'])
                 total_distance += cur_distance
                 total_time += cur_time
                 cur_speed = cur_distance/cur_time

@@ -19,8 +19,10 @@ def updateData(race_results_rows, display_sectional_time_rows, cur_row, prev_row
 
     # horse_last_dst_time
     site = prev_row['site_label']
-    array_course = cur_row['course'].split('"')
-    course = array_course[1].strip()
+    course = cur_row['course'].strip()
+    if '"' in course:
+        array_course = course.split('"')
+        course = array_course[1].strip()
     distance = cur_row['distance']
     horse_last_dst_time = horse_speeds.getLastDstTimeArray(horse_code, site, course, going, distance, race_results_rows, display_sectional_time_rows)
 
