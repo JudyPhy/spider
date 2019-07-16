@@ -2,7 +2,7 @@ from db.db import singleton_ScrubDb
 from common import common
 from config.myconfig import singleton_cfg
 
-RESULTS_TABLE = 'f_race_results_{0}'
+RESULTS_TABLE = 'ff_race_results'
 
 
 def __getFromTime(from_date):
@@ -46,10 +46,12 @@ def __getToTime(to_date):
 def __getRaceNum(race_date):
     race_Num = 0
     year = race_date[: len(race_date) - 4]
-    tableName = RESULTS_TABLE.replace('{0}', year)
+    # tableName = RESULTS_TABLE.replace('{0}', year)
+    tableName = RESULTS_TABLE
     if singleton_ScrubDb.table_exists(tableName):
-        race_data_results = race_date[len(race_date) - 2:] + '/' + race_date[len(race_date) - 4: len(race_date) - 2] + '/' + year
-        singleton_ScrubDb.cursor.execute('select race_No from {} where race_date=%s'.format(tableName), race_data_results)
+        # race_data_results = race_date[len(race_date) - 2:] + '/' + race_date[len(race_date) - 4: len(race_date) - 2] + '/' + year
+        # singleton_ScrubDb.cursor.execute('select race_No from {} where race_date=%s'.format(tableName), race_data_results)
+        singleton_ScrubDb.cursor.execute('select race_No from {} where race_date=%s'.format(tableName), race_date)
         rows = singleton_ScrubDb.cursor.fetchall()
         for row in rows:
             if row['race_No'] > race_Num:

@@ -1,7 +1,7 @@
 import datetime
 import csv
 
-words = ['WV', 'WV-A', 'PU', 'WX-A', 'WX', 'UR', 'FE', 'DISQ', 'TNP', 'DNF', '']
+words = ['WV', 'WV-A', 'PU', 'WX-A', 'WX', 'UR', 'FE', 'DISQ', 'TNP', 'DNF', '', 'WXNR']
 
 
 def toDateTime(time_str):  # time_str: %Y-%m-%d %H:%M:%S

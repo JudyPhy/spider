@@ -11,8 +11,8 @@ class raceCardURLSpider(scrapy.Spider):
     allowed_domains = ['http://racing.hkjc.com']
 
     def start_requests(self):
-        # urlList = singleton_url.getHistoryUrlList()
-        urlList = singleton_url.getFutureUrlList()
+        urlList = singleton_url.getHistoryUrlList()
+        # urlList = singleton_url.getFutureUrlList()
         print('need spider url count:', len(urlList))
         for url in urlList:
             print('request=>', url)

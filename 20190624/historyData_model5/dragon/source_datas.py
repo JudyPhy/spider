@@ -91,7 +91,7 @@ def prepareDatas(sort_history_raceCard_rows, sort_history_raceResults_rows, hors
     data_dict['jockey_recent'] = jockey_recent.GetJockeyRecent(sort_race_date_rows, sort_history_raceResults_rows)
     data_dict['jockey_fav_record'] = jockey_fav_record.GetJockeyFavRecord(sort_race_date_rows, sort_history_raceResults_rows)
     data_dict['draw_record'] = draw_record.GetDrawRecord(sort_race_date_rows, sort_history_raceResults_rows)
-    data_dict['track_record'] = track_record.GetTrackRecord(sort_race_date_rows, sort_history_raceResults_rows)
+    data_dict['track_record'] = track_record.GetTrackRecord(sort_race_date_rows)
     data_dict['track_fav_record'] = track_fav_record.GetTrackFavRecord(sort_race_date_rows, sort_history_raceResults_rows)
 
     data_dict['horse_dct_trend'] = horse_dct_trend.GetHorseDctTrend(sort_history_raceCard_rows, sort_history_raceResults_rows)

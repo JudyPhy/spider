@@ -41,7 +41,7 @@ def compareHistoryAndToday(table_history, table_today):
     rows_history = getResultsTableRows(table_history)
     rows_today = getResultsTableRows(table_today)
     key_list = rows_today[0].keys()
-    exKey = ['id', 'race_id', 'pla_odds', 'plc', 'win_odds', 'odd_trend', 'odd_wave']
+    exKey = ['id', 'race_id', 'pla_odds', 'plc', 'win_odds', 'odd_trend', 'finish_time', 'lbw', 'odd_wave']
     for row_today in rows_today:
         race_date = row_today['race_date']
         race_no = row_today['race_no']
@@ -77,30 +77,49 @@ def compareHistoryAndToday(table_history, table_today):
 
 
 def test():
-    rows = getScrubTableRows('tt_race_card_history')    # arrange, detailed, horse, race, record, game
+    rows = getScrubTableRows('tt_race_card_future')    # arrange, detailed, horse, race, record, game
     print(rows[0].keys())
     print(len(rows))
     n = 0
     array = []
+    model_4 = {}    # race_date_No & {horse_coce & odds_wave}
     for row in rows:
-        # if row['site'] not in array:
-        #     array.append(row['site'])
-        if '20190612' == row['race_date']:
+        # if row['cls'] not in array:
+        #     array.append(row['cls'])
+        if '20190710' == row['race_date'] and row['race_No'] == 4 and row['horse_No'] == '7':
             print(row)
             n += 1
+        # race_date_No = str(row['race_date']) + common.toDoubleDigitStr(row['race_no'])
+        # if race_date_No not in model_4.keys():
+        #     model_4[race_date_No] = {}
+        # horse_code = row['horse_code']
+        # odds_wave = row['odd_wave']
+        # model_4[race_date_No][horse_code] = odds_wave
     print('n=', n)
 
-    # rows_old = getScrubTableRows('b_race_dividend')
+    # rows_old = getResultsTableRows('table_dragon_history_model5')
     # m = 0
+    # model_5 = {}  # race_date_No & {horse_coce & odds_wave}
     # for row in rows_old:
-    #     if '2019' in row['race_date']:    # and row['race_No'] == 5
-    #         m += 1
-    #         # print(row)
-    #         if row['race_date'] not in array:
-    #             array.append(row['race_date'])
-    # print('m=', m)
-    print('array:', array)
+    #     race_date_No = str(row['race_date']) + common.toDoubleDigitStr(row['race_no'])
+    #     if race_date_No not in model_5.keys():
+    #         model_5[race_date_No] = {}
+    #     horse_code = row['horse_code']
+    #     odds_wave = row['odd_wave']
+    #     model_5[race_date_No][horse_code] = odds_wave
+    # # print('m=', m)
+    # # print('array:', array)
+    # # print('array_len:', len(array))
+    #
+    # for race_date_No, dict in model_4.items():
+    #     for horse_code, odds_wave in dict.items():
+    #         if (race_date_No in model_5.keys()) and (horse_code in model_5[race_date_No].keys()):
+    #             if odds_wave != model_5[race_date_No][horse_code]:
+    #                 print('not equl:', race_date_No, horse_code, odds_wave, model_5[race_date_No][horse_code])
+    #         else:
+    #             print('less:', race_date_No, horse_code)
 
-# compareHistoryAndToday('table_dragon_history_model4_6_12', 'today_table_dragon_model4_20190612')
-test()
+
+compareHistoryAndToday('table_dragon_history_model5', 'today_table_dragon_model5_20190710_test')
+# test()
 

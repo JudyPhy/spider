@@ -48,7 +48,7 @@ def __updateRelativeData(today_table_rows, race_results_rows, race_card_history_
 def updateModel5(update_table, dict, immd_rows, lastest_rows, race_results_rows, race_card_history_rows, today_race_start_time):
     for race_No, rows in dict.items():
         for horse_No, prev_row in rows.items():
-            print('\nrace_No[', race_No, '] horse_No[', horse_No, '] update model4')
+            print('\nrace_No[', race_No, '] horse_No[', horse_No, '] update model5')
             update_keys = []
             cur_row = __getCurRow(lastest_rows, race_No, horse_No)
             if cur_row != None:

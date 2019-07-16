@@ -23,9 +23,9 @@ def getScrubTableRows(tableName):
 def compareTwoTable(table1, table2):
     rows_table1 = getResultsTableRows(table1)
     rows_table2 = getResultsTableRows(table2)
-    exKeys = ['id', 'updateTime', 'horse_last_dst_time', 'jockey_trainer_record_before4', 'jockey_trainer_record_total']
+    exKeys = ['id', 'updateTime']
     # print(rows_table1[0].keys())
-    diffrent_dict = {}  # key & raceInfo
+    diffrent_dict = {}  # key & [{raceInfo}]
     for row_2 in rows_table2:
         if row_2['horse_no'] >= 1000:
             continue
@@ -43,24 +43,27 @@ def compareTwoTable(table1, table2):
                         continue
                     elif row_1[key] != row_2[key]:
                         if key not in diffrent_dict.keys():
-                            diffrent_dict[key] = {}
-                        diffrent_dict[key]['race_date'] = race_date
-                        diffrent_dict[key]['race_no'] = race_no
-                        diffrent_dict[key]['horse_no'] = horse_no
-                        diffrent_dict[key]['table1'] = row_1[key]
-                        diffrent_dict[key]['table2'] = row_2[key]
+                            diffrent_dict[key] = []
+                        info_dict = {}
+                        info_dict['race_date'] = race_date
+                        info_dict['race_no'] = race_no
+                        info_dict['horse_no'] = horse_no
+                        info_dict['table1'] = row_1[key]
+                        info_dict['table2'] = row_2[key]
+                        diffrent_dict[key].append(info_dict)
                         # print('\n', race_date, race_no, horse_no)
                         # print('not same:', race_date, race_no, horse_no, ' key:', key, ' table1:', row_1[key], ' table2:', row_2[key])
                 break
         if not find:
-            if 20190224 == row_2['race_date']:
-                pass
-            else:
-                print("data can't find in[", table1, ']:', race_date, race_no, horse_no)
+        #     if 20190224 == row_2['race_date']:
+        #         pass
+        #     else:
+            print("data can't find in[", table1, ']:', race_date, race_no, horse_no)
     print('keys:', diffrent_dict.keys())
-    for key, value in diffrent_dict.items():
-        print(key, value)
+    for key, array in diffrent_dict.items():
+        for dif in array:
+            print(key, dif)
 
 
-compareTwoTable('table_dragon_history_model4', 'table_dragon_history_model4_6_12')
+compareTwoTable('table_dragon_history_model5', 'table_dragon_history_model5_7_14')
 

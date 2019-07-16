@@ -1,7 +1,7 @@
 import datetime
 import csv
 
-words = ['WV', 'WV-A', 'PU', 'WX-A', 'WX', 'UR', 'FE', 'DISQ', 'TNP', 'DNF', '']
+words = ['WV', 'WV-A', 'PU', 'WX-A', 'WX', 'UR', 'FE', 'DISQ', 'TNP', 'DNF', '', 'WXNR']
 
 
 def toDateTime(time_str):  # time_str: %Y-%m-%d %H:%M:%S
@@ -33,13 +33,11 @@ def log(msg):
 
 def IsLowestOdds(odds, rows):
     for horse_code, row in rows.items():
-        plc = dict[horse_code]['plc'].replace('DH', '')
+        plc = row['plc'].replace('DH', '')
         if plc not in words:
             cur_odds = float(row['win_odds'])
             if cur_odds < odds:
                 return False
-        else:
-            return False
     return True
 
 

@@ -1,7 +1,7 @@
 import csv
 import datetime
 
-words = ['WV', 'WV-A', 'PU', 'WX-A', 'WX', 'UR', 'FE', 'DISQ', 'TNP', 'DNF', '']
+words = ['WV', 'WV-A', 'PU', 'WX-A', 'WX', 'UR', 'FE', 'DISQ', 'TNP', 'DNF', '', 'WXNR']
 
 HORSE_RACE_TABLE = 'cc_horse_race_info'
 

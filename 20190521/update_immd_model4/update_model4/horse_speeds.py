@@ -276,8 +276,8 @@ def getJockeySpeeds(horse_code, jockey, race_results_rows):
             array_jockey = dict[horse_code]['jockey'].split('(')
             cur_jockey = array_jockey[0].strip()
             cur_distance = int(dict[horse_code]['distance'])
-            cur_time = common.GetTotalSeconds(dict[horse_code]['finish_time'])
             if (plc not in common.words) and (cur_jockey == jockey):
+                cur_time = common.GetTotalSeconds(dict[horse_code]['finish_time'])
                 total_distance += cur_distance
                 total_time += cur_time
                 cur_speed = cur_distance/cur_time

@@ -10,48 +10,48 @@ from chromeDriver import singleton_chrome
 
 
 def main():
-    from_date = '2019-7-3'
-    to_date = '2019-7-3'
+    from_date = '2019-7-14'
+    to_date = '2019-7-14'
 
-    print('RaceResultsSpider=>')
-    spider_raceResults = RaceResultsSpider()
-    spider_raceResults.setParams(from_date, to_date, True)  # setParams(from_date, to_date, rmLoaded)
-    spider_raceResults.spider_start()
+    # print('RaceResultsSpider=>')
+    # spider_raceResults = RaceResultsSpider()
+    # spider_raceResults.setParams(from_date, to_date, True)  # setParams(from_date, to_date, rmLoaded)
+    # spider_raceResults.spider_start()
 
-    print('\n\nHorseRaceSpider=>')
-    spider_horseRace = HorseRaceSpider()
-    spider_horseRace.setParams(from_date, to_date, False)  # setParams(from_date, to_date, rmLoaded)
-    spider_horseRace.spider_start()
+    # print('\n\nHorseRaceSpider=>')
+    # spider_horseRace = HorseRaceSpider()
+    # spider_horseRace.setParams(from_date, to_date, False)  # setParams(from_date, to_date, rmLoaded)
+    # spider_horseRace.spider_start()
+    #
+    # print('\n\nHorsePedigreeSpider=>')
+    # spider_horsePedigree = HorsePedigreeSpider()
+    # spider_horsePedigree.setParams('2014-0-0', to_date, True)  # setParams(from_date, to_date, rmLoaded)
+    # spider_horsePedigree.spider_start()
 
-    print('\n\nHorsePedigreeSpider=>')
-    spider_horsePedigree = HorsePedigreeSpider()
-    spider_horsePedigree.setParams('2014-0-0', to_date, True)  # setParams(from_date, to_date, rmLoaded)
-    spider_horsePedigree.spider_start()
-
-    print('\n\nDisplaySectionalTimeSpider=>')
-    spider_sectionalTime = DisplaySectionalTimeSpider()
-    spider_sectionalTime.setParams(from_date, to_date, True)  # setParams(from_date, to_date, rmLoaded)
-    spider_sectionalTime.spider_start()
+    # print('\n\nDisplaySectionalTimeSpider=>')
+    # spider_sectionalTime = DisplaySectionalTimeSpider()
+    # spider_sectionalTime.setParams(from_date, to_date, True)  # setParams(from_date, to_date, rmLoaded)
+    # spider_sectionalTime.spider_start()
 
     print('\n\nRaceCardSpider=>')
     spider_raceCard = RaceCardSpider()
     spider_raceCard.setParams(from_date, to_date, True)  # setParams(from_date, to_date, rmLoaded)
     spider_raceCard.spider_start()
 
-    print('\n\nSectionalOddsSpider=>')
-    spider_sectionalOdds = SectionalOddsSpider()
-    spider_sectionalOdds.setParams(from_date, to_date, True)  # setParams(from_date, to_date, rmLoaded)
-    spider_sectionalOdds.spider_start()
-
-    print('\n\nRaceDividend=>')
-    spider_dividend = RaceDividendSpider()
-    spider_dividend.setParams(from_date, to_date, True)  # setParams(from_date, to_date, rmLoaded)
-    spider_dividend.spider_start()
-
-    print('\n\nCourseStandardTimes=>')
-    spider_courseStandardTimes = CourseStandardTimesSpider()
-    spider_courseStandardTimes.setParams(from_date, to_date, True)  # setParams(from_date, to_date, rmLoaded)
-    spider_courseStandardTimes.spider_start()
+    # print('\n\nSectionalOddsSpider=>')
+    # spider_sectionalOdds = SectionalOddsSpider()
+    # spider_sectionalOdds.setParams(from_date, to_date, True)  # setParams(from_date, to_date, rmLoaded)
+    # spider_sectionalOdds.spider_start()
+    #
+    # print('\n\nRaceDividend=>')
+    # spider_dividend = RaceDividendSpider()
+    # spider_dividend.setParams(from_date, to_date, True)  # setParams(from_date, to_date, rmLoaded)
+    # spider_dividend.spider_start()
+    #
+    # print('\n\nCourseStandardTimes=>')
+    # spider_courseStandardTimes = CourseStandardTimesSpider()
+    # spider_courseStandardTimes.setParams(from_date, to_date, True)  # setParams(from_date, to_date, rmLoaded)
+    # spider_courseStandardTimes.spider_start()
 
 
 if __name__ == '__main__':

@@ -113,9 +113,9 @@ class UrlManager(object):
         for code in horseCodeList:
             n += 1
             # if code not in loadedHorseCodeList:
-            urlList.append(HORSE_URL_PRE + code + HORSE_URL_EX)
+            # urlList.append(HORSE_URL_PRE + code + HORSE_URL_EX)
         print('n=', n)
-        # urlList.append(HORSE_URL_PRE + 'B169' + HORSE_URL_EX)
+        urlList.append(HORSE_URL_PRE + 'C329' + HORSE_URL_EX)
         return urlList
 
 
