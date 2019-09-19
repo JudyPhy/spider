@@ -19,3 +19,6 @@ spider_immd_model45
 today表即时更新工程：（比赛过程中开启，用于实时更新today表数据）
 update_immd_model4
 update_immd_model5
+
+派彩表更新：
+将表bb_race_dividend从数据库scrub复制到数据库results中。
