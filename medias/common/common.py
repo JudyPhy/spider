@@ -1,20 +1,9 @@
 import datetime
 import csv
 
+POSTER_INFO_TABLE = 'posterinfo'
 
-def toDoubleDigitStr(interger):
-    v_char=str(interger)
-    while len(v_char) < 2:
-        v_char='0'+v_char
-    return v_char
-
-
-def toThreeDigitStr(integer):
-    v_char = str(integer)
-    while len(v_char) < 3:
-        v_char = '0' + v_char
-    return v_char
-
+MEDIA_PLAY_SRC_TABLE = 'mediasrc'
 
 def toText(orig):
     strs=orig.split(':')
@@ -31,29 +20,3 @@ def log(msg):
     writer = csv.writer(file)
     writer.writerow([msg, now])
     file.close()
-
-
-def toMonth(text_month):
-    if text_month == 'January':
-        return 1
-    elif text_month == 'February':
-        return 2
-    elif text_month == 'March':
-        return 3
-    elif text_month == 'April':
-        return 4
-    elif text_month == 'May':
-        return 5
-    elif text_month == 'June':
-        return 6
-    elif text_month == 'July':
-        return 7
-    elif text_month == 'September':
-        return 9
-    elif text_month == 'October':
-        return 10
-    elif text_month == 'November':
-        return 11
-    elif text_month == 'December':
-        return 12
-    return 0

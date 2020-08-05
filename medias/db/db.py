@@ -3,7 +3,7 @@ import pymysql
 import re
 
 
-class ScrubDb(object):
+class PKMediaDb(object):
 
     def __init__(self):
         db = singleton_cfg.getSelfDB()
@@ -28,5 +28,5 @@ class ScrubDb(object):
             return False
 
 
-singleton_ScrubDb = ScrubDb()
+singleton_PKMediaDb = PKMediaDb()
 

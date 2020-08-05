@@ -2,6 +2,7 @@ from chromeDriver import singleton_chrome
 import time
 from lxml import etree
 from spiders.pk_page_detail_info import pk_page_detail_info
+from db import db_poster_info
 
 
 class pk_page_cover_list(object):
@@ -18,7 +19,7 @@ class pk_page_cover_list(object):
 
     def __parse_page(self):
         medias = singleton_chrome.driver.find_elements_by_xpath('//ul[@class="content-list"]/li')
-        for li in medias[15:16]:
+        for li in medias:
             # print(li.text)
             cover = li.find_element_by_xpath('./div[@class="li-img cover"]')
             data_id = cover.get_attribute('data-id')
@@ -31,11 +32,11 @@ class pk_page_cover_list(object):
             span = bottom_info.find_element_by_xpath('./h3/span')
             score = span.text
             tag = bottom_info.find_element_by_xpath('./div[@class="tag"]').text
-            # print('data_id:', data_id, '\ndetail_url:', detail_url, '\ntitle:', title, '\nimg_src:',
-            #       img_src, '\nscore:', score, '\ntag:', tag)
-            pk_page_detail_info(detail_url)
+            print('data_id:', data_id, '\ndetail_url:', detail_url, '\ntitle:', title, '\nimg_src:',
+                  img_src, '\nscore:', score, '\ntag:', tag)
+            result = [data_id, detail_url, title, img_src, score, tag]
+            db_poster_info.exportToDb(result)
 
-        return
         div_pages = singleton_chrome.driver.find_element_by_xpath('//div[@class="pages"]')
         cur_page_index = int(div_pages.find_element_by_xpath('./span').text)
         pages = div_pages.find_elements_by_xpath('./a')
