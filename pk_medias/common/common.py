@@ -3,7 +3,9 @@ import csv
 
 POSTER_INFO_TABLE = 'posterinfo'
 
-MEDIA_PLAY_SRC_TABLE = 'mediasrc'
+MEDIA_PLAY_SRC_TABLE = 'media_src'
+
+MEDIA_META_TABLE = 'media_meta'
 
 def toText(orig):
     strs=orig.split(':')
