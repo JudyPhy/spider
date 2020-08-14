@@ -35,7 +35,7 @@ def __createTable(tableName):
     starring TEXT,
     type VARCHAR(45) DEFAULT '',
     area VARCHAR(45) DEFAULT '',
-    language VARCHAR(45) DEFAULT '',
+    language VARCHAR(128) DEFAULT '',
     releaseTime VARCHAR(128) DEFAULT '',
     length VARCHAR(128) DEFAULT '',
     other_name VARCHAR(128) DEFAULT '',

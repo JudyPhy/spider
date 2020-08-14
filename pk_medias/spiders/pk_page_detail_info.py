@@ -23,7 +23,7 @@ class pk_page_detail_info(object):
             repetition = singleton_PKMediaDb.cursor.fetchall()
             singleton_PKMediaDb.connect.commit()
             if repetition:
-                for row in repetition[0:100]:    # mv:1000
+                for row in repetition[0:50]:    # mv:1200 tv:100
                     self.__gotoDetailPage(row['data_id'], row['detail_url'])
         else:
             print('table[', tableName, '] not exist')

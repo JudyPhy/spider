@@ -9,6 +9,7 @@ def exportToDb(result, type):
         singleton_PKMediaDb.cursor.execute("select id from {} where data_id=%s".format(tableName), result[0])
         repetition = singleton_PKMediaDb.cursor.fetchone()
         if not repetition:
+            print('exportToDb poster:', type, '->', result)
             sql_insert = """insert into {}(data_id, detail_url, title, img_src, score, tag) value 
             (%s, %s, %s, %s, %s, %s)""".format(tableName)
             singleton_PKMediaDb.cursor.execute(sql_insert, (result))
